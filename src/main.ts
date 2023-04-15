@@ -1,6 +1,6 @@
 import 'modern-normalize/modern-normalize.css';
 import '@/assets/global.scss';
-
+import 'animate.css';
 import 'tippy.js/dist/tippy.css';
 
 import { createPinia } from 'pinia';

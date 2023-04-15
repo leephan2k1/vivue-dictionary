@@ -1,11 +1,15 @@
-import '@/assets/global.scss';
 import 'modern-normalize/modern-normalize.css';
+import '@/assets/global.scss';
+
+import 'tippy.js/dist/tippy.css';
+
 import { createPinia } from 'pinia';
 import { createApp } from 'vue';
 
+import importComponents from '@/utils/importComponents';
+import VueTippy from 'vue-tippy';
 import App from './App.vue';
 import router from './router';
-import importComponents from '@/utils/importComponents';
 
 const app = createApp(App);
 
@@ -13,6 +17,15 @@ const app = createApp(App);
 importComponents(app);
 
 app.use(createPinia());
+app.use(
+  VueTippy,
+  // optional
+  {
+    theme: 'light',
+    directive: 'tippy', // => v-tippy
+    component: 'tippy' // => <tippy/>
+  }
+);
 app.use(router);
 
 app.mount('#app');

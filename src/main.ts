@@ -6,6 +6,7 @@ import 'tippy.js/dist/tippy.css';
 import { createPinia } from 'pinia';
 import { createApp } from 'vue';
 
+import { VueQueryPlugin } from '@tanstack/vue-query';
 import importComponents from '@/utils/importComponents';
 import VueTippy from 'vue-tippy';
 import App from './App.vue';
@@ -17,6 +18,7 @@ const app = createApp(App);
 importComponents(app);
 
 app.use(createPinia());
+app.use(VueQueryPlugin);
 app.use(
   VueTippy,
   // optional

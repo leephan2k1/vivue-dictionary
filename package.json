@@ -12,6 +12,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@tanstack/vue-query": "^4.29.1",
     "animate.css": "^4.1.1",
     "modern-normalize": "^1.1.0",
     "pinia": "^2.0.32",

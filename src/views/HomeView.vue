@@ -2,6 +2,7 @@
 import HomeBanner from '@/components/partials/HomeBanner.vue';
 import SearchInput from '@/components/shared/SearchInput.vue';
 import LanguagePairOption from '@/components/shared/LanguagePairOption.vue';
+import SearchHint from '@/components/shared/SearchHint.vue';
 </script>
 
 <template>
@@ -9,6 +10,8 @@ import LanguagePairOption from '@/components/shared/LanguagePairOption.vue';
     <HomeBanner>
       <LanguagePairOption />
       <SearchInput />
+
+      <SearchHint />
     </HomeBanner>
   </main>
 </template>

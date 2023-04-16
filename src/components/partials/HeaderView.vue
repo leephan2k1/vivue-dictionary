@@ -2,6 +2,8 @@
   <header
     class="w-full min-h-[5rem] flex items-center justify-end px-6 lg:px-14 space-x-6 md:space-x-8"
   >
+    <LanguagePairOption v-if="routePathName !== 'home'" />
+
     <HeaderButton class="md:flex items-center justify-center hidden" title="Luyện tập">
       <SolarPenNewRoundLinear class="text-content" />
     </HeaderButton>
@@ -19,9 +21,18 @@
 </template>
 
 <script lang="ts" setup>
-import UserAvatar from '../shared/UserAvatar.vue';
-import HeaderButton from '@/components/shared/HeaderButton.vue';
 import SolarDocumentTextOutline from '@/components/icons/SolarDocumentTextOutline.vue';
 import SolarHistoryBold from '@/components/icons/SolarHistoryBold.vue';
 import SolarPenNewRoundLinear from '@/components/icons/SolarPenNewRoundLinear.vue';
+import HeaderButton from '@/components/shared/HeaderButton.vue';
+import LanguagePairOption from '@/components/shared/LanguagePairOption.vue';
+import { computed } from 'vue';
+import { useRouter } from 'vue-router';
+import UserAvatar from '../shared/UserAvatar.vue';
+
+const router = useRouter();
+
+const routePathName = computed(() => {
+  return router.currentRoute.value.name;
+});
 </script>

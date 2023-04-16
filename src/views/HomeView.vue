@@ -8,8 +8,8 @@ import SearchHint from '@/components/shared/SearchHint.vue';
 <template>
   <main>
     <HomeBanner>
-      <LanguagePairOption />
-      <SearchInput />
+      <LanguagePairOption class="mx-auto mt-4 p-4" />
+      <SearchInput class="mt-20" />
 
       <SearchHint />
     </HomeBanner>

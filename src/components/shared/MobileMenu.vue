@@ -1,25 +1,22 @@
 <template>
-  <header
-    class="w-full min-h-[5rem] flex items-center justify-end px-6 lg:px-14 space-x-6 md:space-x-8"
+  <div
+    class="fixed bottom-4 w-[90vw] relative-x-center h-[50px] bg-black md:hidden z-20 rounded-2xl smooth-effect flex items-center justify-between px-4"
   >
-    <HeaderButton class="md:flex items-center justify-center hidden" title="Luyện tập">
+    <HeaderButton class="flex items-center justify-center text-xl" title="Luyện tập">
       <SolarPenNewRoundLinear class="text-content" />
     </HeaderButton>
 
-    <HeaderButton class="md:flex items-center justify-center hidden" title="Lịch sử">
+    <HeaderButton class="flex items-center justify-center text-xl" title="Lịch sử">
       <SolarHistoryBold class="text-content" />
     </HeaderButton>
 
-    <HeaderButton class="md:flex items-center justify-center hidden" title="Dịch câu">
+    <HeaderButton class="flex items-center justify-center text-xl" title="Dịch câu">
       <SolarDocumentTextOutline class="text-content" />
     </HeaderButton>
-
-    <UserAvatar />
-  </header>
+  </div>
 </template>
 
 <script lang="ts" setup>
-import UserAvatar from '../shared/UserAvatar.vue';
 import HeaderButton from '@/components/shared/HeaderButton.vue';
 import SolarDocumentTextOutline from '@/components/icons/SolarDocumentTextOutline.vue';
 import SolarHistoryBold from '@/components/icons/SolarHistoryBold.vue';

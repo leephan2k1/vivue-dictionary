@@ -1,6 +1,11 @@
 <template>
-  <div class="relative mt-4 flex items-center justify-between mx-auto w-fit p-4 space-x-8">
-    <h3 :key="store.pair.current_language" class="min-w-[25px] animate__pulse animate__animated">
+  <div
+    class="relative mt-4 flex items-center justify-between mx-auto w-fit overflow-hidden p-4 space-x-8"
+  >
+    <h3
+      :key="store.pair.current_language"
+      class="min-w-[25px] animate__bounceInRight animate__animated animate__faster"
+    >
       {{ store.pair.current_language }}
     </h3>
 
@@ -9,7 +14,10 @@
       <SolarArrowToDownLeftLinear class="rotate-[90deg]" />
     </button>
 
-    <h3 :key="store.pair.target_language" class="min-w-[25px] animate__pulse animate__animated">
+    <h3
+      :key="store.pair.target_language"
+      class="min-w-[25px] animate__bounceInLeft animate__animated animate__faster"
+    >
       {{ store.pair.target_language }}
     </h3>
   </div>

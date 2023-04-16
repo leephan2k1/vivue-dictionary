@@ -6,18 +6,31 @@
       v-if="searchResultStore.result.length > 0"
       class="rounded-2xl w-full max-h-[30vh] overflow-x-hidden overflow-y-scroll flex flex-col p-4 space-y-4 bg-black"
     >
-      <span
+      <RouterLink
         v-for="word in searchResultStore.result"
         :key="word"
-        class="cursor-pointer text-content smooth-effect hover:bg-gray-800 px-4 py-2 rounded-2xl"
-        >{{ word }}</span
-      >
+        :to="{
+          name: 'dictionary',
+          params: { word },
+          query: {
+            pair: `${t[languagePairStore.pair.current_language]}-${
+              t[languagePairStore.pair.target_language]
+            }`
+          }
+        }"
+        class="text-content smooth-effect hover:bg-gray-800 px-4 py-2 rounded-2xl"
+        >{{ word }}
+      </RouterLink>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useSearchResult } from '@/stores/searchResult';
+import { RouterLink } from 'vue-router';
+import { useLanguagePair } from '@/stores/languages';
+import { t } from '@/constants';
 
+const languagePairStore = useLanguagePair();
 const searchResultStore = useSearchResult();
 </script>

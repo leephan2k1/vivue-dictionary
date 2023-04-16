@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full flex items-center justify-center mt-20 z-20">
+  <div class="w-full flex items-center justify-center z-20 relative">
     <div
       class="px-4 rounded-2xl overflow-hidden lg:w-[30%] md:w-[50%] w-[70%] flex items-center space-x-2 bg-black text-[#9ca3af]"
     >
@@ -28,6 +28,8 @@
     >
       <HeroiconsClipboard />
     </button>
+
+    <slot />
   </div>
 </template>
 
@@ -50,8 +52,11 @@ const searchResultStore = useSearchResult();
 const languageStore = useLanguagePair();
 const searchValue = ref('');
 const debounceValue = refDebounced(searchValue, 350);
+const emit = defineEmits(['onChange']);
 
 const { refetch, status: fetchingStatus } = useQuery({
+  //@ts-ignore
+  //-> "The last overload gave the following error.ts(2769)", IDK wtf is this?
   queryKey: ['search-word'],
   queryFn: async function () {
     return await (
@@ -66,7 +71,7 @@ const { refetch, status: fetchingStatus } = useQuery({
     ).data;
   },
   enabled: debounceValue.value.length > 0 && debounceValue.value,
-  onSuccess: (data) => {
+  onSuccess: (data: any) => {
     searchResultStore.setResult(data.words);
     searchResultStore.setStatus('success');
   },
@@ -77,6 +82,7 @@ const { refetch, status: fetchingStatus } = useQuery({
 
 watch(debounceValue, () => {
   if (debounceValue.value.length > 0) refetch();
+  else searchResultStore.setStatus('idle');
 });
 
 watchEffect(() => {
@@ -93,6 +99,7 @@ onUnmounted(() => {
 const handleChange = () => {
   searchResultStore.setResult([]);
   searchResultStore.setStatus('loading');
+  emit('onChange');
 };
 
 const handleClearContent = () => {

@@ -1,10 +1,11 @@
 <template>
-  <div
-    class="relative mt-4 flex items-center justify-between mx-auto w-fit overflow-hidden p-4 space-x-8"
-  >
+  <div class="relative flex items-center justify-between w-fit overflow-hidden space-x-8">
     <h3
       :key="store.pair.current_language"
-      class="min-w-[25px] animate__bounceInRight animate__animated animate__faster"
+      :class="`${
+        store.pair.current_language === 'English' ? 'animate__slideInDown' : 'animate__slideInUp'
+      }`"
+      class="min-w-[25px] animate__animated"
     >
       {{ store.pair.current_language }}
     </h3>
@@ -16,7 +17,10 @@
 
     <h3
       :key="store.pair.target_language"
-      class="min-w-[25px] animate__bounceInLeft animate__animated animate__faster"
+      :class="`${
+        store.pair.current_language === 'English' ? 'animate__slideInUp' : 'animate__slideInDown'
+      }`"
+      class="min-w-[25px] animate__animated"
     >
       {{ store.pair.target_language }}
     </h3>

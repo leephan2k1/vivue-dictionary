@@ -24,19 +24,58 @@
       </template>
     </div>
 
-    <div v-if="props.language === 'English'" class="flex items-center space-x-4 mt-4 text-content">
-      <!-- <span>/stɑːf/</span> -->
-      <span class="tw-animate-pulse bg-gray-800 w-[70px] h-[24px] rounded-xl"></span>
+    <div class="w-[15rem] my-4" v-if="props.language === 'English'">
+      <SelectSource @source-change="handleSourceChange" />
+    </div>
 
-      <button>
-        <SolarVolumeLoudBold class="lg:text-3xl text-4xl" />
-      </button>
+    <div v-if="props.language === 'English'" class="flex items-center space-x-4 mt-4 text-content">
+      <template v-if="status === 'loading' || localStatus === 'loading'">
+        <template v-for="n in 2" :key="n">
+          <button>
+            <SolarVolumeLoudBold class="lg:text-3xl text-4xl" />
+          </button>
+          <span class="tw-animate-pulse bg-gray-800 w-[70px] h-[24px] rounded-xl"></span>
+        </template>
+      </template>
+
+      <template v-if="status === 'success'">
+        <template v-for="a in audios" :key="a.author">
+          <span>{{ shortHandAuthor(a.author) }}</span>
+          <button class="hover:text-main smooth-effect" @click="handlePlayAudio(a.url)">
+            <SolarVolumeLoudBold class="lg:text-3xl text-4xl" />
+          </button>
+          <span>{{ a.phrase }}</span>
+
+          <button
+            @click="() => (openAudioModel = true)"
+            v-if="source === 'glosbe'"
+            v-tippy="'Xem thêm'"
+          >
+            <PlusCircleIcon class="w-6 h-6" />
+          </button>
+        </template>
+      </template>
     </div>
   </div>
+
+  <AudioModel
+    :audios="audiosData?.audios || []"
+    :open="openAudioModel"
+    @set-open="(state) => (openAudioModel = state)"
+  />
 </template>
 
 <script lang="ts" setup>
 import SolarVolumeLoudBold from '../icons/SolarVolumeLoudBold.vue';
+import SelectSource from '@/components/shared/SelectSource.vue';
+import getAPIUrl from '@/utils/getAPIUrl';
+import { useQuery } from '@tanstack/vue-query';
+import axios from 'axios';
+import type { Audio, FetchingStatus, Source } from '@/types/app';
+import { ref, watch } from 'vue';
+import { PlusCircleIcon } from '@heroicons/vue/20/solid';
+import AudioModel from './AudioModel.vue';
+import { toast } from 'vue-sonner';
 
 const props = defineProps<{
   language: string;
@@ -44,4 +83,61 @@ const props = defineProps<{
   isLoading: boolean;
   typesOfWord?: string[];
 }>();
+
+const API_END_POINT = getAPIUrl();
+const audios = ref<Audio[]>([]);
+const localStatus = ref<FetchingStatus>('idle');
+const source = ref<Source>('cambridge');
+const openAudioModel = ref(false);
+
+const {
+  status,
+  refetch,
+  data: audiosData
+} = useQuery<{ audios: Audio[] }>({
+  queryKey: [`fetching-audio`, props.word],
+  queryFn: async () => {
+    return await (
+      await axios.get(`${API_END_POINT}/api/words/audio/${encodeURIComponent(props.word)}`, {
+        params: { source: source.value }
+      })
+    ).data;
+  },
+  onSuccess: (data) => {
+    if (source.value === 'glosbe') {
+      audios.value = [data.audios[0]];
+    } else {
+      audios.value = data.audios;
+    }
+
+    localStatus.value = 'success';
+  },
+  enabled: props.language === 'English'
+});
+
+const handlePlayAudio = (src: string) => {
+  try {
+    const audio = new Audio(src);
+    audio.play();
+  } catch (error) {
+    toast.error('Xảy ra lỗi! Thử lại sau bạn nhé!');
+  }
+};
+
+const handleSourceChange = (src: Source) => {
+  source.value = src;
+};
+
+const shortHandAuthor = (author: string) => {
+  if (author.includes('English')) return 'UK';
+  if (author.includes('American')) return 'US';
+
+  return author;
+};
+
+watch([() => props.word, () => source.value], () => {
+  localStatus.value = 'loading';
+  audios.value = [];
+  refetch();
+});
 </script>

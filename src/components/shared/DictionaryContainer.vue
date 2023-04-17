@@ -10,7 +10,7 @@
       :language="t[pair[1]]"
       :is-loading="isLoading"
       :types-of-word="pair[1] === 'en' ? data?.typesOfWord : []"
-      :word="pair[1] === 'en' && data ? data.wordContent : data?.senses[0].sense || ''"
+      :word="data?.senses[0].sense || ''"
     />
 
     <template v-if="!data || isLoading">
@@ -31,7 +31,12 @@
 
     <SimilarPhrase :is-loading="isLoading" :similar_phrases="data?.similar_phrases || []" />
 
-    <WordExample :is-loading="isLoading" :examples="data?.examples || []" />
+    <WordExample
+      v-if="data"
+      :is-loading="isLoading"
+      :key="data?.examples.length"
+      :examples="data.examples"
+    />
 
     <WordGrammar />
   </div>
@@ -67,7 +72,7 @@ const wordParam = computed(() => {
 });
 
 const { data, status, refetch } = useQuery<Word>({
-  queryKey: ['word-detail'],
+  queryKey: ['word-detail', wordParam.value],
   queryFn: async () => {
     return await (
       await axios.get(

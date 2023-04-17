@@ -60,7 +60,7 @@ const router = useRouter();
 const { refetch, status: fetchingStatus } = useQuery({
   //@ts-ignore
   //-> "The last overload gave the following error.ts(2769)", IDK wtf is this?
-  queryKey: ['search-word'],
+  queryKey: ['search-word', debounceValue.value],
   queryFn: async function () {
     return await (
       await axios.get(`${API_END_POINT}/api/words/search`, {

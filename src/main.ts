@@ -5,7 +5,7 @@ import 'tippy.js/dist/tippy.css';
 
 import { createPinia } from 'pinia';
 import { createApp } from 'vue';
-
+import { autoAnimatePlugin } from '@formkit/auto-animate/vue';
 import { VueQueryPlugin } from '@tanstack/vue-query';
 import importComponents from '@/utils/importComponents';
 import VueTippy from 'vue-tippy';
@@ -19,6 +19,7 @@ importComponents(app);
 
 app.use(createPinia());
 app.use(VueQueryPlugin);
+app.use(autoAnimatePlugin);
 app.use(
   VueTippy,
   // optional

@@ -9,6 +9,7 @@
       <RouterLink
         v-for="word in searchResultStore.result"
         :key="word"
+        @click="emit('onSelectWord')"
         :to="{
           name: 'dictionary',
           params: { word },
@@ -31,6 +32,7 @@ import { RouterLink } from 'vue-router';
 import { useLanguagePair } from '@/stores/languages';
 import { t } from '@/constants';
 
+const emit = defineEmits(['onSelectWord']);
 const languagePairStore = useLanguagePair();
 const searchResultStore = useSearchResult();
 </script>

@@ -13,6 +13,11 @@ const router = createRouter({
       path: '/dictionary/:word',
       name: 'dictionary',
       component: () => import('@/views/DictionaryView.vue')
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'notFound',
+      component: () => import('@/views/NotFoundView.vue')
     }
     // {
     //   path: '/about',

@@ -6,6 +6,7 @@
       <input
         type="text"
         @input="handleChange"
+        @keyup.enter="handleChangeKeyup"
         v-model="searchValue"
         placeholder="Tìm kiếm từ vựng..."
         class="rounded-xl py-4 bg-transparent w-full focus:px-2 smooth-effect focus:placeholder:text-transparent"
@@ -46,6 +47,7 @@ import axios from 'axios';
 import { ref, watch, onUnmounted, watchEffect } from 'vue';
 import { toast } from 'vue-sonner';
 import { useSearchResult } from '@/stores/searchResult';
+import { useRouter } from 'vue-router';
 
 const API_END_POINT = getAPIUrl();
 const searchResultStore = useSearchResult();
@@ -53,6 +55,7 @@ const languageStore = useLanguagePair();
 const searchValue = ref('');
 const debounceValue = refDebounced(searchValue, 350);
 const emit = defineEmits(['onChange']);
+const router = useRouter();
 
 const { refetch, status: fetchingStatus } = useQuery({
   //@ts-ignore
@@ -95,6 +98,16 @@ onUnmounted(() => {
   searchResultStore.setResult([]);
   searchResultStore.setStatus('idle');
 });
+
+const handleChangeKeyup = () => {
+  router.push({
+    name: 'dictionary',
+    params: { word: searchValue.value },
+    query: {
+      pair: `${t[languageStore.pair.current_language]}-${t[languageStore.pair.target_language]}`
+    }
+  });
+};
 
 const handleChange = () => {
   searchResultStore.setResult([]);

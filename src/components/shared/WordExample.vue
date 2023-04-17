@@ -64,8 +64,10 @@ const currentExample = ref<Example[]>([]);
 watch(
   () => props.examples,
   () => {
+    page.value = 1;
     currentExample.value = [...props.examples].slice(page.value - 1, page.value * 4);
-  }
+  },
+  { immediate: true }
 );
 
 const handleAddMoreExamples = () => {

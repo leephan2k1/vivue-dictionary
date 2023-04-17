@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-[1200px] mx-auto border border-rose-500">
+  <div class="max-w-[1200px] mx-auto">
     <slot />
   </div>
 </template>

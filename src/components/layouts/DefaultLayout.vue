@@ -1,6 +1,6 @@
 <template>
   <Toaster position="top-center" theme="dark" />
-  <div class="w-full min-h-screen bg-main-background text-white font-main">
+  <div class="w-full min-h-screen bg-main-background text-gray-300 font-main">
     <HeaderView />
     <slot />
 

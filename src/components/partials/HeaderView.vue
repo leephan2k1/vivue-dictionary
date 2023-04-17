@@ -2,7 +2,7 @@
   <header
     class="w-full min-h-[5rem] flex items-center justify-end px-6 lg:px-14 space-x-6 md:space-x-8"
   >
-    <LanguagePairOption v-if="routePathName !== 'home'" />
+    <LanguagePairOption class="text-2xl" v-if="routePathName !== 'home'" />
 
     <HeaderButton class="md:flex items-center justify-center hidden" title="Luyện tập">
       <SolarPenNewRoundLinear class="text-content" />

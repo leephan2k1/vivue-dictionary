@@ -1,5 +1,5 @@
 <template>
-  <div class="flex w-full flex-col mt-4 space-y-8">
+  <div v-if="!error" class="flex w-full flex-col mt-4 space-y-8">
     <WordContent
       :language="t[pair[0]]"
       :is-loading="isLoading"
@@ -10,8 +10,20 @@
       :language="t[pair[1]]"
       :is-loading="isLoading"
       :types-of-word="pair[1] === 'en' ? data?.typesOfWord : []"
-      :word="data?.senses[0].sense || ''"
+      :word="data?.senses[0]?.sense || 'Không tìm thấy nghĩa'"
     />
+
+    <p v-if="data?.senses.length === 0">
+      Bạn đang cố gắng dịch câu hay từ chuyên ngành? Hãy thử chức năng dịch câu!
+    </p>
+
+    <button
+      v-if="data && data?.senses.length > 0"
+      @click="setOpenEngSenseModal(true)"
+      class="absolute-center space-x-2 w-fit p-4 bg-black rounded-xl hover:outline hover:outline-[1.8px] hover:outline-main"
+    >
+      <PlusCircleIcon class="w-6 h-6" /> <span>Nghĩa Anh</span>
+    </button>
 
     <template v-if="!data || isLoading">
       <div
@@ -40,6 +52,16 @@
 
     <WordGrammar />
   </div>
+
+  <div v-if="error" class="absolute-center flex-col space-y-6 mt-28 px-6">
+    <SolarSadSquareLinear class="w-10 h-10 text-rose-400" />
+    <h1 class="text-center text-rose-400">Oh không tìm thấy gì cả! Có chắc bạn đã tìm đúng từ?</h1>
+  </div>
+  <EnglishSenseModal
+    :word-in-english="pair[0] === 'en' && data ? data.wordContent : data?.senses[0].sense || ''"
+    :open="openEnglishSenseModal"
+    @set-open="setOpenEngSenseModal"
+  />
 </template>
 
 <script lang="ts" setup>
@@ -52,15 +74,19 @@ import WordContent from './WordContent.vue';
 import WordExample from './WordExample.vue';
 import WordGrammar from './WordGrammar.vue';
 import WordSense from './WordSense.vue';
+import SolarSadSquareLinear from '@/components/icons/SolarSadSquareLinear.vue';
+import EnglishSenseModal from './EnglishSenseModal.vue';
+import { PlusCircleIcon } from '@heroicons/vue/20/solid';
 
 import { t } from '@/constants';
 import { useQuery } from '@tanstack/vue-query';
-import { computed, ref, watch, onMounted } from 'vue';
+import { computed, ref, watch, onMounted, watchEffect } from 'vue';
 import { useRouter } from 'vue-router';
 
 const API_END_POINT = getAPIUrl();
 const router = useRouter();
 const localStatus = ref<FetchingStatus>('idle');
+const openEnglishSenseModal = ref(false);
 
 const pair = computed(() => {
   const languages = router.currentRoute.value.query?.pair;
@@ -71,7 +97,11 @@ const wordParam = computed(() => {
   return String(router.currentRoute.value.params?.word);
 });
 
-const { data, status, refetch } = useQuery<Word>({
+const isLoading = computed(() => {
+  return status.value === 'loading' || !data.value || localStatus.value === 'loading';
+});
+
+const { data, status, refetch, error } = useQuery<Word>({
   queryKey: ['word-detail', wordParam.value],
   queryFn: async () => {
     return await (
@@ -90,6 +120,10 @@ const { data, status, refetch } = useQuery<Word>({
   }
 });
 
+const setOpenEngSenseModal = (state: boolean) => {
+  openEnglishSenseModal.value = state;
+};
+
 watch(
   () => router.currentRoute.value,
   () => {
@@ -100,9 +134,5 @@ watch(
 
 onMounted(() => {
   localStatus.value = 'loading';
-});
-
-const isLoading = computed(() => {
-  return status.value === 'loading' || !data.value || localStatus.value === 'loading';
 });
 </script>

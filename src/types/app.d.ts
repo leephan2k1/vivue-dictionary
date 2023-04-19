@@ -15,6 +15,10 @@ export interface Word {
   examples: Example[];
 }
 
+export interface WordInEnglish extends Pick<Word, 'wordContent' | 'typesOfWord'> {
+  senses: (Pick<Sense, 'typeOfWord' | 'sense'> & { examples: string[] })[];
+}
+
 export interface Example {
   en: string;
   keyword_en: string;

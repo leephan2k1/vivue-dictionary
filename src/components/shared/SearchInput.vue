@@ -40,21 +40,22 @@ import HeroiconsMagnifyingGlassSolid from '@/components/icons/HeroiconsMagnifyin
 import HeroiconsXCircle from '@/components/icons/HeroiconsXCircle.vue';
 import { t } from '@/constants';
 import { useLanguagePair } from '@/stores/languages';
+import { useSearchResult } from '@/stores/searchResult';
 import getAPIUrl from '@/utils/getAPIUrl';
 import { useQuery } from '@tanstack/vue-query';
 import { refDebounced } from '@vueuse/core';
 import axios from 'axios';
-import { ref, watch, onUnmounted, watchEffect } from 'vue';
-import { toast } from 'vue-sonner';
-import { useSearchResult } from '@/stores/searchResult';
+import { onUnmounted, ref, watch, watchEffect } from 'vue';
 import { useRouter } from 'vue-router';
+import { toast } from 'vue-sonner';
+
+const emit = defineEmits(['onChange', 'onPressEnterKey']);
 
 const API_END_POINT = getAPIUrl();
 const searchResultStore = useSearchResult();
 const languageStore = useLanguagePair();
 const searchValue = ref('');
 const debounceValue = refDebounced(searchValue, 350);
-const emit = defineEmits(['onChange']);
 const router = useRouter();
 
 const { refetch, status: fetchingStatus } = useQuery({
@@ -100,6 +101,7 @@ onUnmounted(() => {
 });
 
 const handleChangeKeyup = () => {
+  emit('onPressEnterKey');
   router.push({
     name: 'dictionary',
     params: { word: searchValue.value },

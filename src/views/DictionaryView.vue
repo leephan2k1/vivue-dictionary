@@ -2,7 +2,11 @@
   <ContainerView class="mt-10 md:px-14 lg:px-36 px-2 py-4 pb-[8rem]">
     <LogoView class="text-4xl" />
 
-    <SearchInput @on-change="handleShowWordsHint" class="mt-4">
+    <SearchInput
+      @on-change="handleShowWordsHint"
+      @on-press-enter-key="handlePressEnterKey"
+      class="mt-4"
+    >
       <SearchHint
         @on-select-word="isWordSelected = false"
         class="absolute top-[80%]"
@@ -37,6 +41,10 @@ onMounted(() => {
     router.push({ name: 'notFound' });
   }
 });
+
+const handlePressEnterKey = () => {
+  isWordSelected.value = false;
+};
 
 const handleShowWordsHint = () => {
   if (!isWordSelected.value) isWordSelected.value = true;

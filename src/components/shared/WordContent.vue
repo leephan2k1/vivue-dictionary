@@ -25,7 +25,11 @@
     </div>
 
     <div class="w-[15rem] my-4" v-if="props.language === 'English'">
-      <SelectSource @source-change="handleSourceChange" />
+      <SelectSource
+        :sources="sources"
+        button-styles="bg-black"
+        @source-change="handleSourceChange"
+      />
     </div>
 
     <div v-if="props.language === 'English'" class="flex items-center space-x-4 mt-4 text-content">
@@ -38,13 +42,13 @@
         </template>
       </template>
 
-      <template v-if="status === 'success'">
-        <template v-for="a in audios" :key="a.author">
-          <span>{{ shortHandAuthor(a.author) }}</span>
+      <template v-if="status === 'success' && audios && audios.length > 0">
+        <template v-for="a in audios" :key="a?.author">
+          <span>{{ shortHandAuthor(a?.author) }}</span>
           <button class="hover:text-main smooth-effect" @click="handlePlayAudio(a.url)">
             <SolarVolumeLoudBold class="lg:text-3xl text-4xl" />
           </button>
-          <span>{{ a.phrase }}</span>
+          <span>{{ a?.phrase }}</span>
 
           <button
             @click="() => (openAudioModel = true)"
@@ -72,10 +76,11 @@ import getAPIUrl from '@/utils/getAPIUrl';
 import { useQuery } from '@tanstack/vue-query';
 import axios from 'axios';
 import type { Audio, FetchingStatus, Source } from '@/types/app';
-import { ref, watch } from 'vue';
+import { ref, watch, watchEffect } from 'vue';
 import { PlusCircleIcon } from '@heroicons/vue/20/solid';
 import AudioModel from './AudioModel.vue';
 import { toast } from 'vue-sonner';
+import { sources } from '@/constants';
 
 const props = defineProps<{
   language: string;
@@ -105,7 +110,7 @@ const {
   },
   onSuccess: (data) => {
     if (source.value === 'glosbe') {
-      audios.value = [data.audios[0]];
+      audios.value = data.audios[0] ? [data.audios[0]] : [];
     } else {
       audios.value = data.audios;
     }
@@ -129,6 +134,8 @@ const handleSourceChange = (src: Source) => {
 };
 
 const shortHandAuthor = (author: string) => {
+  if (!author) return;
+
   if (author.includes('English')) return 'UK';
   if (author.includes('American')) return 'US';
 

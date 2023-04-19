@@ -2,7 +2,8 @@
   <Listbox v-model="selectedPSource">
     <div class="relative mt-1">
       <ListboxButton
-        class="relative w-full cursor-default rounded-lg bg-black p-4 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300"
+        :class="props?.buttonStyles ? props.buttonStyles : ''"
+        class="relative w-full min-w-[15rem] cursor-default rounded-lg p-4 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300"
       >
         <span class="block truncate">{{ selectedPSource }}</span>
         <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
@@ -51,13 +52,14 @@
 <script setup lang="ts">
 import { ref, watchEffect } from 'vue';
 import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue';
+import type { Source } from '@/types/app';
 //@ts-ignore
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid';
-import { sources } from '@/constants';
 
+const props = defineProps<{ buttonStyles?: string; sources: Source[] }>();
 const emits = defineEmits(['sourceChange']);
 
-const selectedPSource = ref(sources[0]);
+const selectedPSource = ref(props.sources[0]);
 
 watchEffect(() => {
   emits('sourceChange', selectedPSource.value);

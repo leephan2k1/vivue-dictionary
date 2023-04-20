@@ -8,10 +8,10 @@
     <h2 class="text-center mt-4 z-30 select-none">Đăng nhập</h2>
 
     <div class="flex-1 flex flex-col items-center mt-16 space-y-8 z-30">
-      <LoginButton title="Đăng nhập với Google" class="group">
+      <LoginButton title="Đăng nhập với Google" class="group" provider="google">
         <PhGoogleLogoFill class="text-3xl group-hover:text-yellow-400 smooth-effect" />
       </LoginButton>
-      <LoginButton title="Đăng nhập với Google" class="group">
+      <LoginButton title="Đăng nhập với Google" class="group" provider="facebook">
         <TeenyiconsFacebookSolid class="text-3xl group-hover:text-sky-500 smooth-effect" />
       </LoginButton>
     </div>

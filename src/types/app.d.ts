@@ -6,6 +6,16 @@ export type LanguagePairs = 'vi-en' | 'en-vi' | 'en-en';
 
 export type FetchingStatus = 'idle' | 'error' | 'success' | 'loading';
 
+export type SessionStatus = 'authenticated' | 'loading' | 'unauthenticated';
+
+export interface User {
+  id: string;
+  email: string;
+  image: string;
+  name: string;
+  provider: string;
+}
+
 export interface Word {
   wordContent: string;
   typesOfWord: string[];

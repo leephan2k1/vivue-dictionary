@@ -2,6 +2,7 @@ import 'modern-normalize/modern-normalize.css';
 import '@/assets/global.scss';
 import 'animate.css';
 import 'tippy.js/dist/tippy.css';
+import 'nprogress/nprogress.css';
 
 import { createPinia } from 'pinia';
 import { createApp } from 'vue';

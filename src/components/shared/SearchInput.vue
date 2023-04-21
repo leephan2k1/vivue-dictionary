@@ -131,7 +131,7 @@ const handleGetClipboardValue = async () => {
       searchValue.value = text;
     }
   } catch (error) {
-    toast.error('Firefox hoặc trình duyệt bạn đang dùng không hỗ trợ dán link!');
+    toast.error('Firefox hoặc trình duyệt bạn đang dùng không hỗ trợ dán text!');
   }
 };
 </script>

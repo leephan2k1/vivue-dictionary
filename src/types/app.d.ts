@@ -1,6 +1,6 @@
 export type Language = 'English' | 'Vietnamese' | 'Tiếng Việt';
 
-export type Source = 'glosbe' | 'oxford' | 'cambridge';
+export type Source = 'glosbe' | 'oxford' | 'cambridge' | 'google';
 
 export type LanguagePairs = 'vi-en' | 'en-vi' | 'en-en';
 

@@ -16,6 +16,11 @@ const router = createRouter({
       component: () => import('@/views/DictionaryView.vue')
     },
     {
+      path: '/machine-translation',
+      name: 'translation',
+      component: () => import('@/views/MachineTranslation.vue')
+    },
+    {
       path: '/login',
       name: 'login',
       component: () => import('@/views/LoginView.vue')

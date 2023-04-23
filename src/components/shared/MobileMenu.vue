@@ -2,15 +2,27 @@
   <div
     class="fixed bottom-4 w-[90vw] relative-x-center h-[50px] bg-black md:hidden z-20 rounded-2xl smooth-effect flex items-center justify-between px-4"
   >
-    <HeaderButton class="flex items-center justify-center text-xl" title="Luyện tập">
+    <HeaderButton
+      link-to="practice"
+      class="flex items-center justify-center text-xl"
+      title="Luyện tập"
+    >
       <SolarPenNewRoundLinear class="text-content" />
     </HeaderButton>
 
-    <HeaderButton class="flex items-center justify-center text-xl" title="Lịch sử">
+    <HeaderButton
+      link-to="history"
+      class="flex items-center justify-center text-xl"
+      title="Lịch sử"
+    >
       <SolarHistoryBold class="text-content" />
     </HeaderButton>
 
-    <HeaderButton class="flex items-center justify-center text-xl" title="Dịch câu">
+    <HeaderButton
+      link-to="translation"
+      class="flex items-center justify-center text-xl"
+      title="Dịch câu"
+    >
       <SolarDocumentTextOutline class="text-content" />
     </HeaderButton>
   </div>

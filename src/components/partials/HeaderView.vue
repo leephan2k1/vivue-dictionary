@@ -4,15 +4,27 @@
   >
     <LanguagePairOption class="text-2xl" v-if="routePathName !== 'home'" />
 
-    <HeaderButton class="md:flex items-center justify-center hidden" title="Luyện tập">
+    <HeaderButton
+      link-to="practice"
+      class="md:flex items-center justify-center hidden"
+      title="Luyện tập"
+    >
       <SolarPenNewRoundLinear class="text-content" />
     </HeaderButton>
 
-    <HeaderButton class="md:flex items-center justify-center hidden" title="Lịch sử">
+    <HeaderButton
+      link-to="history"
+      class="md:flex items-center justify-center hidden"
+      title="Lịch sử"
+    >
       <SolarHistoryBold class="text-content" />
     </HeaderButton>
 
-    <HeaderButton class="md:flex items-center justify-center hidden" title="Dịch câu">
+    <HeaderButton
+      class="md:flex items-center justify-center hidden"
+      link-to="translation"
+      title="Dịch câu"
+    >
       <SolarDocumentTextOutline class="text-content" />
     </HeaderButton>
 

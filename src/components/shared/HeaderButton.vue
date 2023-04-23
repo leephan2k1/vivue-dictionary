@@ -1,7 +1,7 @@
 <template>
   <RouterLink
     :key="String(isActive)"
-    :to="{ name: 'translation' }"
+    :to="{ name: props.linkTo }"
     :class="isActive && 'outline-main outline-[2px] outline'"
     class="space-x-4 bg-black p-2 rounded-xl hover:outline hover:outline-[2px] hover:outline-main"
   >
@@ -15,12 +15,16 @@ import { RouterLink } from 'vue-router';
 import { useRouter } from 'vue-router';
 import { watchEffect, ref } from 'vue';
 
-const props = defineProps<{ title: string }>();
+const props = defineProps<{ title: string; linkTo: string }>();
 const router = useRouter();
 const isActive = ref(false);
 
 watchEffect(() => {
+  const routerName = router.currentRoute.value.name;
+
   isActive.value =
-    router.currentRoute.value.name === 'translation' && props.title.toLowerCase() === 'dịch câu';
+    (routerName === 'translation' && props.title.toLowerCase() === 'dịch câu') ||
+    (routerName === 'history' && props.title.toLowerCase() === 'lịch sử') ||
+    (routerName === 'practice' && props.title.toLowerCase() === 'luyện tập');
 }, {});
 </script>

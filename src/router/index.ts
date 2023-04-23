@@ -21,6 +21,16 @@ const router = createRouter({
       component: () => import('@/views/MachineTranslation.vue')
     },
     {
+      path: '/history',
+      name: 'history',
+      component: () => import('@/views/HistoryView.vue')
+    },
+    {
+      path: '/practice',
+      name: 'practice',
+      component: () => import('@/views/HistoryView.vue')
+    },
+    {
       path: '/login',
       name: 'login',
       component: () => import('@/views/LoginView.vue')

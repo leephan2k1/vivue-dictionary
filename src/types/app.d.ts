@@ -16,6 +16,13 @@ export interface User {
   provider: string;
 }
 
+interface TranslationHistory {
+  word: string;
+  sense: string;
+  currentLanguage: string;
+  targetLanguage: string;
+}
+
 export interface Word {
   wordContent: string;
   typesOfWord: string[];

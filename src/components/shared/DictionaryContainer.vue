@@ -65,28 +65,31 @@
 </template>
 
 <script lang="ts" setup>
-import type { FetchingStatus, Word } from '@/types/app';
+import SolarSadSquareLinear from '@/components/icons/SolarSadSquareLinear.vue';
+import type { FetchingStatus, TranslationHistory, Word } from '@/types/app';
 import getAPIUrl from '@/utils/getAPIUrl';
+import { PlusCircleIcon } from '@heroicons/vue/20/solid';
+import { useStorage } from '@vueuse/core';
 import axios from 'axios';
+import EnglishSenseModal from './EnglishSenseModal.vue';
 import LessFrequentSense from './LessFrequentSense.vue';
 import SimilarPhrase from './SimilarPhrase.vue';
 import WordContent from './WordContent.vue';
 import WordExample from './WordExample.vue';
 import WordGrammar from './WordGrammar.vue';
 import WordSense from './WordSense.vue';
-import SolarSadSquareLinear from '@/components/icons/SolarSadSquareLinear.vue';
-import EnglishSenseModal from './EnglishSenseModal.vue';
-import { PlusCircleIcon } from '@heroicons/vue/20/solid';
 
 import { t } from '@/constants';
-import { useQuery } from '@tanstack/vue-query';
-import { computed, ref, watch, onMounted, watchEffect } from 'vue';
+import { useSession } from '@/stores/userSession';
+import { useMutation, useQuery } from '@tanstack/vue-query';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 
 const API_END_POINT = getAPIUrl();
 const router = useRouter();
 const localStatus = ref<FetchingStatus>('idle');
 const openEnglishSenseModal = ref(false);
+const sessionStore = useSession();
 
 const pair = computed(() => {
   const languages = router.currentRoute.value.query?.pair;
@@ -117,6 +120,36 @@ const { data, status, refetch, error } = useQuery<Word>({
   },
   onSuccess: () => {
     localStatus.value = 'success';
+  },
+  retry: 2
+});
+
+const { mutate: addTranslationHistory } = useMutation({
+  mutationFn: ({ payload }: { payload: TranslationHistory }) =>
+    axios.post(`${API_END_POINT}/api/users/translation-history`, payload, { withCredentials: true })
+});
+
+const localHistory = useStorage<TranslationHistory[]>('translations-history', []);
+
+//insert word to history local/remote
+watch(localStatus, () => {
+  if (data.value?.senses.length === 0 || !data.value?.wordContent) return;
+
+  const payload = {
+    currentLanguage: pair.value[0],
+    targetLanguage: pair.value[1],
+    word: data.value?.wordContent,
+    sense: data.value?.senses[0].sense
+  };
+
+  if (sessionStore.status === 'authenticated' && localStatus.value === 'success') {
+    addTranslationHistory({
+      payload
+    });
+  }
+  //for unauthenticated
+  else if (!localHistory.value.find((e) => e.word === payload.word)) {
+    localHistory.value.unshift(payload);
   }
 });
 

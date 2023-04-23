@@ -68,6 +68,7 @@ const localHistory = useStorage<TranslationHistory[]>('translations-history', []
 const sessionStore = useSession();
 
 const localData = inject<TranslationHistory[] | null>('localData');
+const fetchHistory = inject('refetchHistory');
 
 const fallbackData = ref<TranslationHistory[]>([]);
 
@@ -87,6 +88,9 @@ const { mutate: deleteWord } = useMutation({
     //@ts-ignore
     localData.value = fallbackData.value;
     toast.error('Xoá tất cả thất bại! Thử lại sau...');
+  },
+  onSuccess: () => {
+    if (fetchHistory && typeof fetchHistory === 'function') fetchHistory();
   }
 });
 

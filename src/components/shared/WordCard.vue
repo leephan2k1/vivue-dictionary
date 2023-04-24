@@ -1,5 +1,8 @@
 <template>
-  <div class="bg-black rounded-xl aspect-h-3 aspect-w-4 group">
+  <div
+    @click="handleGoToDictionaryView"
+    class="bg-black rounded-xl aspect-h-3 aspect-w-4 group cursor-pointer"
+  >
     <div class="full-size p-6 flex flex-col space-y-2">
       <div class="flex justify-between items-center">
         <div class="space-x-2 flex items-center text-content md:text-xl text-lg">
@@ -18,7 +21,7 @@
 
       <div class="justify-end lg:hidden flex group-hover:flex smooth-effect">
         <button
-          @click="handleDeleteWord"
+          @click.stop="handleDeleteWord"
           class="w-fit p-2 hover:bg-gray-800 rounded-full animate__zoomIn animate__animated animate__faster"
         >
           <XMarkIcon class="w-5 h-5" />
@@ -39,6 +42,7 @@ import getAPIUrl from '@/utils/getAPIUrl';
 import { useSession } from '@/stores/userSession';
 import { useStorage } from '@vueuse/core';
 import { toast } from 'vue-sonner';
+import { useRouter } from 'vue-router';
 
 const localHistory = useStorage<TranslationHistory[]>('translations-history', []);
 const props = defineProps<{ translation: TranslationHistory }>();
@@ -46,6 +50,7 @@ const fetchHistory = inject('refetchHistory');
 const localData = inject<TranslationHistory[] | null>('localData');
 const fallbackData = ref<TranslationHistory[]>([]);
 const sessionStore = useSession();
+const router = useRouter();
 
 const { mutate: deleteWord } = useMutation({
   mutationFn: async ({ word, deleteOption }: { word: string; deleteOption?: string }) => {
@@ -68,6 +73,16 @@ const { mutate: deleteWord } = useMutation({
     if (fetchHistory && typeof fetchHistory === 'function') fetchHistory();
   }
 });
+
+const handleGoToDictionaryView = () => {
+  router.push({
+    name: 'dictionary',
+    params: { word: props.translation.word },
+    query: {
+      pair: `${props.translation.currentLanguage}-${props.translation.targetLanguage}`
+    }
+  });
+};
 
 const handleDeleteWord = () => {
   toast.success(`Xoá từ ${props.translation.word} thành công!`);

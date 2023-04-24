@@ -1,6 +1,6 @@
 <template>
-  <ContainerView class="mt-6 py-6 min-h-screen overflow-y-hidden md:pb-0 pb-32 px-3">
-    <LogoView class="text-4xl" />
+  <component :is="`container`" class="mt-6 py-6 min-h-screen overflow-y-hidden md:pb-0 pb-32 px-3">
+    <component :is="`logo`" class="text-4xl" />
 
     <h2 class="text-center my-6">Các bản dịch đã thực hiện</h2>
 
@@ -31,7 +31,7 @@
     <div class="w-full my-4" v-if="totalPages">
       <FancyPagination :total-pages="totalPages" />
     </div>
-  </ContainerView>
+  </component>
 
   <ConfirmModal :open="openConfirmModal" @set-open="handleSetOpenCFModal" />
 </template>
@@ -40,9 +40,7 @@
 import SolarCloudUploadBold from '@/components/icons/SolarCloudUploadBold.vue';
 import SolarTrashBin2Bold from '@/components/icons/SolarTrashBin2Bold.vue';
 import ConfirmModal from '@/components/shared/ConfirmModal.vue';
-import ContainerView from '@/components/shared/ContainerView.vue';
 import FancyPagination from '@/components/shared/FancyPagination.vue';
-import LogoView from '@/components/shared/LogoView.vue';
 import WordHistoryContainer from '@/components/shared/WordHistoryContainer.vue';
 import { useSession } from '@/stores/userSession';
 import type { FetchingStatus, TranslationHistory } from '@/types/app';

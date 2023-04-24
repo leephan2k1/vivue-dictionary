@@ -1,6 +1,6 @@
 <template>
-  <ContainerView class="mt-10 md:px-14 lg:px-36 px-2 py-4 pb-[8rem]">
-    <LogoView class="text-4xl" />
+  <component :is="`container`" class="mt-10 md:px-14 lg:px-36 px-2 py-4 pb-[8rem]">
+    <component :is="`logo`" class="text-4xl" />
 
     <SearchInput
       @on-change="handleShowWordsHint"
@@ -15,13 +15,11 @@
     </SearchInput>
 
     <DictionaryContainer />
-  </ContainerView>
+  </component>
 </template>
 
 <script lang="ts" setup>
-import ContainerView from '@/components/shared/ContainerView.vue';
 import DictionaryContainer from '@/components/shared/DictionaryContainer.vue';
-import LogoView from '@/components/shared/LogoView.vue';
 import SearchHint from '@/components/shared/SearchHint.vue';
 import SearchInput from '@/components/shared/SearchInput.vue';
 import { onMounted, ref } from 'vue';

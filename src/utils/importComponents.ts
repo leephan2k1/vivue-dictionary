@@ -9,6 +9,16 @@ export default function assignGlobalComponents(app: App) {
   );
 
   app.component(
+    `container`,
+    defineAsyncComponent(() => import('@/components/shared/ContainerView.vue'))
+  );
+
+  app.component(
+    `logo`,
+    defineAsyncComponent(() => import('@/components/shared/LogoView.vue'))
+  );
+
+  app.component(
     `${AUTH_LAYOUT}-layout`,
     defineAsyncComponent(() => import('@/components/layouts/AuthLayout.vue'))
   );

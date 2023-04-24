@@ -1,6 +1,6 @@
 <template>
-  <ContainerView class="mt-6 py-6 min-h-[calc(100vh-7rem)] md:pb-0 pb-32 px-3">
-    <LogoView class="text-4xl" />
+  <component :is="`container`" class="mt-6 py-6 min-h-[calc(100vh-7rem)] md:pb-0 pb-32 px-3">
+    <component :is="`logo`" class="text-4xl" />
 
     <div class="flex items-center space-x-4 md:px-20 lg:px-32 mt-6">
       <button
@@ -46,15 +46,13 @@
         :result="resultTranslation ? resultTranslation[source] : ''"
       />
     </div>
-  </ContainerView>
+  </component>
 </template>
 
 <script lang="ts" setup>
 import GlosbeLogo from '@/components/icons/GlosbeLogo.vue';
 import SimpleIconsGoogletranslate from '@/components/icons/SimpleIconsGoogletranslate.vue';
 import SolarArrowToDownLeftLinear from '@/components/icons/SolarArrowToDownLeftLinear.vue';
-import ContainerView from '@/components/shared/ContainerView.vue';
-import LogoView from '@/components/shared/LogoView.vue';
 import TranslateInput from '@/components/shared/TranslateInput.vue';
 import TranslateResult from '@/components/shared/TranslateResult.vue';
 import { t } from '@/constants';

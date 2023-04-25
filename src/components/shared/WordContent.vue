@@ -1,6 +1,9 @@
 <template>
   <div class="flex flex-col">
-    <h3 class="text-content">{{ props.language }}</h3>
+    <div class="flex space-x-4 items-center">
+      <h3 class="text-content">{{ props.language }}</h3>
+      <StarButton v-if="props.language === 'English' && status === 'success'" />
+    </div>
 
     <div class="flex items-center space-x-4 mt-4">
       <div
@@ -72,11 +75,12 @@
 <script lang="ts" setup>
 import SolarVolumeLoudBold from '../icons/SolarVolumeLoudBold.vue';
 import SelectSource from '@/components/shared/SelectSource.vue';
+import StarButton from './StarButton.vue';
 import getAPIUrl from '@/utils/getAPIUrl';
 import { useQuery } from '@tanstack/vue-query';
 import axios from 'axios';
 import type { Audio, FetchingStatus, Source } from '@/types/app';
-import { ref, watch, watchEffect } from 'vue';
+import { ref, watch } from 'vue';
 import { PlusCircleIcon } from '@heroicons/vue/20/solid';
 import AudioModel from './AudioModel.vue';
 import { toast } from 'vue-sonner';

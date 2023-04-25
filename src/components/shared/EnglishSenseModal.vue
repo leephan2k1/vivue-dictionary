@@ -113,15 +113,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watchEffect, watch } from 'vue';
 import SelectSource from '@/components/shared/SelectSource.vue';
 import { sources } from '@/constants';
+import type { FetchingStatus, Source, WordInEnglish } from '@/types/app';
+import getAPIUrl from '@/utils/getAPIUrl';
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue';
 import { XMarkIcon } from '@heroicons/vue/20/solid';
-import type { Source, WordInEnglish, FetchingStatus } from '@/types/app';
 import { useQuery } from '@tanstack/vue-query';
-import getAPIUrl from '@/utils/getAPIUrl';
 import axios from 'axios';
+import { ref, watch, onMounted } from 'vue';
 import Highlighter from 'vue-highlight-words';
 
 const props = defineProps<{ open: boolean; wordInEnglish: string }>();

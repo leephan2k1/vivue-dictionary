@@ -100,10 +100,6 @@ const wordParam = computed(() => {
   return String(router.currentRoute.value.params?.word);
 });
 
-const isLoading = computed(() => {
-  return status.value === 'loading' || !data.value || localStatus.value === 'loading';
-});
-
 const { data, status, refetch, error } = useQuery<Word>({
   queryKey: ['word-detail', wordParam.value],
   queryFn: async () => {
@@ -122,6 +118,12 @@ const { data, status, refetch, error } = useQuery<Word>({
     localStatus.value = 'success';
   },
   retry: 2
+});
+
+const isLoading = computed(() => {
+  return (
+    (status.value === 'loading' || !data.value || localStatus.value === 'loading') && !data.value
+  );
 });
 
 const { mutate: addTranslationHistory } = useMutation({

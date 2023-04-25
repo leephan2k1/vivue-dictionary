@@ -1,5 +1,10 @@
 <template>
-  <button @click="handleToggleStar" class="p-4" v-tippy="'Lưu vào luyện tập'">
+  <button
+    @click="handleToggleStar"
+    class="p-4"
+    v-tippy="'Lưu vào luyện tập'"
+    :disabled="localStatus === 'loading'"
+  >
     <StarIcon v-if="!isStar" class="w-8 h-8" />
     <StarIconSolid v-else class="w-8 h-8 text-main" />
   </button>
@@ -8,27 +13,30 @@
 </template>
 
 <script lang="ts" setup>
+import { useSession } from '@/stores/userSession';
+import getAPIUrl from '@/utils/getAPIUrl';
 import { StarIcon } from '@heroicons/vue/24/outline';
 import { StarIcon as StarIconSolid } from '@heroicons/vue/24/solid';
-import StarOptions from './StarOptions.vue';
-import { ref, watch, onMounted } from 'vue';
+import { useMutation, useQuery } from '@tanstack/vue-query';
 import axios from 'axios';
-import getAPIUrl from '@/utils/getAPIUrl';
-import { useQuery, useMutation } from '@tanstack/vue-query';
-import { useSession } from '@/stores/userSession';
+import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { toast } from 'vue-sonner';
+import StarOptions from './StarOptions.vue';
+import type { FetchingStatus } from '@/types/app';
 
 const router = useRouter();
 const session = useSession();
 const openOptions = ref(false);
 const isStar = ref(false);
+const localStatus = ref<FetchingStatus>('idle');
 
 const { word } = router.currentRoute.value.params;
 
-const { refetch, data } = useQuery({
+const { refetch } = useQuery({
   queryKey: ['fetching-fv-status', word],
   queryFn: async () => {
+    localStatus.value = 'loading';
     return await (
       await axios.get(`${getAPIUrl()}/api/users/favorite`, {
         withCredentials: true,
@@ -40,16 +48,13 @@ const { refetch, data } = useQuery({
   },
   enabled: session.status === 'authenticated',
   onSuccess: (data) => {
+    localStatus.value = 'success';
     if (data) {
       isStar.value = true;
     }
-  }
-});
-
-onMounted(() => {
-  //get from cache
-  if (data.value) {
-    isStar.value = true;
+  },
+  onError: () => {
+    localStatus.value = 'error';
   }
 });
 

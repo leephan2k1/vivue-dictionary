@@ -49,7 +49,7 @@ import { useQuery } from '@tanstack/vue-query';
 import { useMediaQuery, useStorage } from '@vueuse/core';
 import axios from 'axios';
 import { cluster } from 'radash';
-import { computed, provide, ref, watchEffect } from 'vue';
+import { computed, provide, ref, watchEffect, onMounted } from 'vue';
 import { RouterLink, useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -66,7 +66,7 @@ const limit = computed(() => {
   return isLargeScreen.value ? 18 : 20;
 });
 
-const { refetch } = useQuery({
+const { refetch, data } = useQuery({
   queryKey: ['fetching-translations-history'],
   queryFn: async () => {
     localStatus.value = 'loading';
@@ -86,6 +86,14 @@ const { refetch } = useQuery({
     localStatus.value = 'error';
   },
   enabled: sessionStore.status === 'authenticated'
+});
+
+onMounted(() => {
+  //data from cache
+  if (data.value && data.value.translations.length > 0) {
+    localData.value = data.value.translations;
+    totalPages.value = data.value.totalPages;
+  }
 });
 
 const deleteAll = () => {

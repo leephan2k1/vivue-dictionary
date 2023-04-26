@@ -114,20 +114,35 @@ const pagesInView = computed(() => {
 
 const handleGoToPage = (page: number) => {
   currentPage.value = page;
-  router.replace({ query: { page: currentPage.value } });
+  router.replace({
+    query: {
+      ...router.currentRoute.value.query,
+      page: currentPage.value
+    }
+  });
 };
 
 const handleBackPrevPage = () => {
   if (currentPage.value > 1) {
     currentPage.value = currentPage.value - 1;
-    router.replace({ query: { page: currentPage.value } });
+    router.replace({
+      query: {
+        ...router.currentRoute.value.query,
+        page: currentPage.value
+      }
+    });
   }
 };
 
 const handleNextPage = () => {
   if (currentPage.value < totalPages.value) {
     currentPage.value = currentPage.value + 1;
-    router.replace({ query: { page: currentPage.value } });
+    router.replace({
+      query: {
+        ...router.currentRoute.value.query,
+        page: currentPage.value
+      }
+    });
   }
 };
 

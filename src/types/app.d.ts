@@ -60,3 +60,9 @@ export interface Audio {
   author: string;
   url: string;
 }
+
+export interface WordPreview {
+  format: string;
+  wordContent: string;
+  senses: Pick<Sense, 'sense'>[];
+}

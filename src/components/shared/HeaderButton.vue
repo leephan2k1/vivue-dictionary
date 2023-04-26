@@ -25,6 +25,7 @@ watchEffect(() => {
   isActive.value =
     (routerName === 'translation' && props.title.toLowerCase() === 'dịch câu') ||
     (routerName === 'history' && props.title.toLowerCase() === 'lịch sử') ||
-    (routerName === 'practice' && props.title.toLowerCase() === 'luyện tập');
+    (['dashboard', 'instructions', 'challenge', 'settings'].includes(String(routerName)) &&
+      props.title.toLowerCase() === 'luyện tập');
 }, {});
 </script>

@@ -5,7 +5,7 @@
     <LanguagePairOption class="text-2xl" v-if="routePathName !== 'home'" />
 
     <HeaderButton
-      link-to="practice"
+      link-to="dashboard"
       class="md:flex items-center justify-center hidden"
       title="Luyện tập"
     >

@@ -3,7 +3,7 @@
     class="fixed bottom-4 w-[90vw] relative-x-center h-[50px] bg-black md:hidden z-20 rounded-2xl smooth-effect flex items-center justify-between px-4"
   >
     <HeaderButton
-      link-to="practice"
+      link-to="dashboard"
       class="flex items-center justify-center text-xl"
       title="Luyện tập"
     >

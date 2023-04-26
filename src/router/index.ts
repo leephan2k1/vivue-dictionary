@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
+import DashboardView from '@/components/features/dashboard/DashboardView.vue';
 import NProgress from 'nprogress';
 import { useSession } from '@/stores/userSession';
 import { checkAuth } from '@/utils/checkAuth';
@@ -49,7 +50,29 @@ const router = createRouter({
           session.user = user;
           next();
         }
-      }
+      },
+      children: [
+        {
+          path: 'dashboard',
+          name: 'dashboard',
+          component: DashboardView
+        },
+        {
+          path: 'instructions',
+          name: 'instructions',
+          component: () => import('@/components/features/instructions/InstructionsView.vue')
+        },
+        {
+          path: 'challenge',
+          name: 'challenge',
+          component: () => import('@/components/features/practice/PracticeView.vue')
+        },
+        {
+          path: 'settings',
+          name: 'settings',
+          component: () => import('@/components/features/settings/SettingsView.vue')
+        }
+      ]
     },
     {
       path: '/login',

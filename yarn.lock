@@ -1135,6 +1135,11 @@ convert-source-map@^1.7.0:
   resolved "https://registry.yarnpkg.com/convert-source-map/-/convert-source-map-1.9.0.tgz#7faae62353fb4213366d0ca98358d22e8368b05f"
   integrity sha512-ASFBup0Mz1uyiIjANan1jzLQami9z1PoYSZCiiYW2FczPbenXc45FZdBZLzOT+r6+iciuEModtmCti+hjaAk0A==
 
+countup.js@^2.1.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/countup.js/-/countup.js-2.6.0.tgz#db25f37653c5ee996b4dfa03d1ab2f430c903fd1"
+  integrity sha512-GeORCrCcaFUHP3RNf0/dWK+XQX+fsdtrMO31mNvsbKXNNG+DMTcgZ4dWpIG9BnOS8t5+iJbaRXgaaG9oLs0N4g==
+
 cross-spawn@^6.0.5:
   version "6.0.5"
   resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-6.0.5.tgz#4a5ec7c64dfae22c3a14124dbacdee846d80cbc4"
@@ -2921,6 +2926,13 @@ vite@^4.1.4:
     rollup "^3.18.0"
   optionalDependencies:
     fsevents "~2.3.2"
+
+vue-countup-v3@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/vue-countup-v3/-/vue-countup-v3-1.1.0.tgz#b4ffa8bb2775b0303a97db10be38b8012beca7b6"
+  integrity sha512-yDKKlmOmGXlRTL+pHBhAakpqzBdrNpW4fuZzJPWtPkkZT+012rqZf9SDNoJ0fwRaumANKCBUTm5l8qBvrPBAWQ==
+  dependencies:
+    countup.js "^2.1.0"
 
 vue-demi@*, vue-demi@>=0.14.0:
   version "0.14.0"

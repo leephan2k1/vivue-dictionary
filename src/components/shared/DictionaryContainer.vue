@@ -67,10 +67,8 @@
 <script lang="ts" setup>
 import SolarSadSquareLinear from '@/components/icons/SolarSadSquareLinear.vue';
 import type { FetchingStatus, TranslationHistory, Word } from '@/types/app';
-import getAPIUrl from '@/utils/getAPIUrl';
 import { PlusCircleIcon } from '@heroicons/vue/20/solid';
 import { useStorage } from '@vueuse/core';
-import axios from 'axios';
 import EnglishSenseModal from './EnglishSenseModal.vue';
 import LessFrequentSense from './LessFrequentSense.vue';
 import SimilarPhrase from './SimilarPhrase.vue';
@@ -81,11 +79,11 @@ import WordSense from './WordSense.vue';
 
 import { t } from '@/constants';
 import { useSession } from '@/stores/userSession';
+import { axiosClient } from '@/utils/httpClient';
 import { useMutation, useQuery } from '@tanstack/vue-query';
 import { computed, onMounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 
-const API_END_POINT = getAPIUrl();
 const router = useRouter();
 const localStatus = ref<FetchingStatus>('idle');
 const openEnglishSenseModal = ref(false);
@@ -104,14 +102,11 @@ const { data, status, refetch, error } = useQuery<Word>({
   queryKey: ['word-detail', wordParam.value],
   queryFn: async () => {
     return await (
-      await axios.get(
-        `${API_END_POINT}/api/words/translate/${encodeURIComponent(String(wordParam.value))}`,
-        {
-          params: {
-            format: router.currentRoute.value.query?.pair
-          }
+      await axiosClient.get(`/words/translate/${encodeURIComponent(String(wordParam.value))}`, {
+        params: {
+          format: router.currentRoute.value.query?.pair
         }
-      )
+      })
     ).data;
   },
   onSuccess: () => {
@@ -128,7 +123,7 @@ const isLoading = computed(() => {
 
 const { mutate: addTranslationHistory } = useMutation({
   mutationFn: ({ payload }: { payload: TranslationHistory }) =>
-    axios.post(`${API_END_POINT}/api/users/translation-history`, payload, { withCredentials: true })
+    axiosClient.post(`/users/translation-history`, payload, { withCredentials: true })
 });
 
 const localHistory = useStorage<TranslationHistory[]>('translations-history', []);

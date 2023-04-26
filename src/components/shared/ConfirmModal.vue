@@ -51,14 +51,13 @@
 </template>
 
 <script lang="ts" setup>
-import getAPIUrl from '@/utils/getAPIUrl';
+import { useSession } from '@/stores/userSession';
+import type { TranslationHistory } from '@/types/app';
+import { axiosClient } from '@/utils/httpClient';
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue';
 import { useMutation } from '@tanstack/vue-query';
-import axios from 'axios';
-import { inject, ref } from 'vue';
-import type { TranslationHistory } from '@/types/app';
 import { useStorage } from '@vueuse/core';
-import { useSession } from '@/stores/userSession';
+import { inject, ref } from 'vue';
 import { toast } from 'vue-sonner';
 
 const props = defineProps<{ open: boolean }>();
@@ -75,7 +74,7 @@ const fallbackData = ref<TranslationHistory[]>([]);
 const { mutate: deleteWord } = useMutation({
   mutationFn: async ({ word, deleteOption }: { word: string; deleteOption?: string }) => {
     return await (
-      await axios.delete(`${getAPIUrl()}/api/users/translation-history`, {
+      await axiosClient.delete(`/users/translation-history`, {
         withCredentials: true,
         data: {
           word,

@@ -32,17 +32,16 @@
 </template>
 
 <script lang="ts" setup>
+import { useSession } from '@/stores/userSession';
+import type { TranslationHistory } from '@/types/app';
+import { axiosClient } from '@/utils/httpClient';
 import { ArrowLongRightIcon, XMarkIcon } from '@heroicons/vue/20/solid';
 import { StarIcon } from '@heroicons/vue/24/outline';
-import type { TranslationHistory } from '@/types/app';
 import { useMutation } from '@tanstack/vue-query';
-import { inject, ref } from 'vue';
-import axios from 'axios';
-import getAPIUrl from '@/utils/getAPIUrl';
-import { useSession } from '@/stores/userSession';
 import { useStorage } from '@vueuse/core';
-import { toast } from 'vue-sonner';
+import { inject, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { toast } from 'vue-sonner';
 
 const localHistory = useStorage<TranslationHistory[]>('translations-history', []);
 const props = defineProps<{ translation: TranslationHistory }>();
@@ -55,7 +54,7 @@ const router = useRouter();
 const { mutate: deleteWord } = useMutation({
   mutationFn: async ({ word, deleteOption }: { word: string; deleteOption?: string }) => {
     return await (
-      await axios.delete(`${getAPIUrl()}/api/users/translation-history`, {
+      await axiosClient.delete(`/users/translation-history`, {
         withCredentials: true,
         data: {
           word,

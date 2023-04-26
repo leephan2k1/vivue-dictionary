@@ -58,10 +58,9 @@ import TranslateResult from '@/components/shared/TranslateResult.vue';
 import { t } from '@/constants';
 import { useLanguagePair } from '@/stores/languages';
 import type { FetchingStatus, Source } from '@/types/app';
-import getAPIUrl from '@/utils/getAPIUrl';
+import { axiosClient } from '@/utils/httpClient';
 import { useQuery } from '@tanstack/vue-query';
 import { refDebounced } from '@vueuse/core';
-import axios from 'axios';
 import { ref, watch } from 'vue';
 
 const sentence = ref('');
@@ -77,10 +76,10 @@ const { refetch } = useQuery({
   queryKey: ['fetching-sentence-sense'],
   queryFn: async () => {
     return await (
-      await axios.post(
-        `${getAPIUrl()}/api/words/machine_translation?format=${
-          t[languagesStore.pair.current_language]
-        }-${t[languagesStore.pair.target_language]}`,
+      await axiosClient.post(
+        `/words/machine_translation?format=${t[languagesStore.pair.current_language]}-${
+          t[languagesStore.pair.target_language]
+        }`,
         {
           sentence: debounceValue.value
         }

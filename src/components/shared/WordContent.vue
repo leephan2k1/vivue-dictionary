@@ -73,18 +73,17 @@
 </template>
 
 <script lang="ts" setup>
-import SolarVolumeLoudBold from '../icons/SolarVolumeLoudBold.vue';
 import SelectSource from '@/components/shared/SelectSource.vue';
-import StarButton from './StarButton.vue';
-import getAPIUrl from '@/utils/getAPIUrl';
-import { useQuery } from '@tanstack/vue-query';
-import axios from 'axios';
-import type { Audio, FetchingStatus, Source } from '@/types/app';
-import { ref, watch } from 'vue';
-import { PlusCircleIcon } from '@heroicons/vue/20/solid';
-import AudioModel from './AudioModel.vue';
-import { toast } from 'vue-sonner';
 import { sources } from '@/constants';
+import type { Audio, FetchingStatus, Source } from '@/types/app';
+import { axiosClient } from '@/utils/httpClient';
+import { PlusCircleIcon } from '@heroicons/vue/20/solid';
+import { useQuery } from '@tanstack/vue-query';
+import { ref, watch } from 'vue';
+import { toast } from 'vue-sonner';
+import SolarVolumeLoudBold from '../icons/SolarVolumeLoudBold.vue';
+import AudioModel from './AudioModel.vue';
+import StarButton from './StarButton.vue';
 
 const props = defineProps<{
   language: string;
@@ -93,7 +92,6 @@ const props = defineProps<{
   typesOfWord?: string[];
 }>();
 
-const API_END_POINT = getAPIUrl();
 const audios = ref<Audio[]>([]);
 const localStatus = ref<FetchingStatus>('idle');
 const source = ref<Source>('cambridge');
@@ -107,7 +105,7 @@ const {
   queryKey: [`fetching-audio`, props.word],
   queryFn: async () => {
     return await (
-      await axios.get(`${API_END_POINT}/api/words/audio/${encodeURIComponent(props.word)}`, {
+      await axiosClient.get(`/words/audio/${encodeURIComponent(props.word)}`, {
         params: { source: source.value }
       })
     ).data;

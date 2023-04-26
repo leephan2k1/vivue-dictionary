@@ -44,12 +44,11 @@ import FancyPagination from '@/components/shared/FancyPagination.vue';
 import WordHistoryContainer from '@/components/shared/WordHistoryContainer.vue';
 import { useSession } from '@/stores/userSession';
 import type { FetchingStatus, TranslationHistory } from '@/types/app';
-import getAPIUrl from '@/utils/getAPIUrl';
+import { axiosClient } from '@/utils/httpClient';
 import { useQuery } from '@tanstack/vue-query';
 import { useMediaQuery, useStorage } from '@vueuse/core';
-import axios from 'axios';
 import { cluster } from 'radash';
-import { computed, provide, ref, watchEffect, onMounted } from 'vue';
+import { computed, onMounted, provide, ref, watchEffect } from 'vue';
 import { RouterLink, useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -71,7 +70,7 @@ const { refetch, data } = useQuery({
   queryFn: async () => {
     localStatus.value = 'loading';
     return (
-      await axios.get(`${getAPIUrl()}/api/users/translation-history`, {
+      await axiosClient.get(`/users/translation-history`, {
         withCredentials: true,
         params: { limit: limit.value, page: currentPage.value }
       })

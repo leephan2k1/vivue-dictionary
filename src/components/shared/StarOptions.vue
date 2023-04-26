@@ -109,15 +109,14 @@
 </template>
 
 <script lang="ts" setup>
+import { axiosClient } from '@/utils/httpClient';
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue';
-import { XMarkIcon, ChevronUpIcon, ChevronDownIcon } from '@heroicons/vue/20/solid';
-import { ref } from 'vue';
-import SelectTag from './SelectTag.vue';
+import { ChevronDownIcon, ChevronUpIcon, XMarkIcon } from '@heroicons/vue/20/solid';
 import { useMutation } from '@tanstack/vue-query';
-import axios from 'axios';
-import getAPIUrl from '@/utils/getAPIUrl';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { toast } from 'vue-sonner';
+import SelectTag from './SelectTag.vue';
 
 const emits = defineEmits(['setOpen', 'onMutate']);
 const props = defineProps<{ open: boolean }>();
@@ -132,7 +131,7 @@ const { mutate: addPracticeWord } = useMutation({
   mutationKey: ['addPracticeWord'],
   mutationFn: async (payload: { word: string; tag?: string; numberOfDaysToForget?: number }) => {
     return await (
-      await axios.post(`${getAPIUrl()}/api/users/favorite`, payload, { withCredentials: true })
+      await axiosClient.post(`/users/favorite`, payload, { withCredentials: true })
     ).data;
   },
   onError: () => {

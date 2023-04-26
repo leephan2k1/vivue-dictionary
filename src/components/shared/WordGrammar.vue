@@ -31,16 +31,14 @@
 
 <script lang="ts" setup>
 import DocumentsIconSolid from '@/components/icons/DocumentsIconSolid.vue';
-import DocumentsIconBlurSolid from '../icons/DocumentsIconBlurSolid.vue';
-import { useIntersectionObserver } from '@vueuse/core';
-import { ref, computed, watch, watchEffect } from 'vue';
-import getAPIUrl from '@/utils/getAPIUrl';
-import { useQuery } from '@tanstack/vue-query';
-import axios from 'axios';
-import { useRouter } from 'vue-router';
 import type { FetchingStatus } from '@/types/app';
+import { axiosClient } from '@/utils/httpClient';
+import { useQuery } from '@tanstack/vue-query';
+import { useIntersectionObserver } from '@vueuse/core';
+import { computed, ref, watch, watchEffect } from 'vue';
+import { useRouter } from 'vue-router';
+import DocumentsIconBlurSolid from '../icons/DocumentsIconBlurSolid.vue';
 
-const API_END_POINT = getAPIUrl();
 const refWord = ref('');
 const target = ref(null);
 const targetIsVisible = ref(false);
@@ -60,7 +58,7 @@ const { status, refetch, data } = useQuery<{ grammars: string[] }>({
   queryKey: ['fetch-grammars'],
   queryFn: async () => {
     return await (
-      await axios.get(`${API_END_POINT}/api/words/grammar/${encodeURIComponent(wordParam.value)}`)
+      await axiosClient.get(`/words/grammar/${encodeURIComponent(wordParam.value)}`)
     ).data;
   },
   enabled: targetIsVisible.value,

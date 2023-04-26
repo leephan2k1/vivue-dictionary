@@ -116,18 +116,15 @@
 import SelectSource from '@/components/shared/SelectSource.vue';
 import { sources } from '@/constants';
 import type { FetchingStatus, Source, WordInEnglish } from '@/types/app';
-import getAPIUrl from '@/utils/getAPIUrl';
+import { axiosClient } from '@/utils/httpClient';
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue';
 import { XMarkIcon } from '@heroicons/vue/20/solid';
 import { useQuery } from '@tanstack/vue-query';
-import axios from 'axios';
-import { ref, watch, onMounted } from 'vue';
+import { ref, watch } from 'vue';
 import Highlighter from 'vue-highlight-words';
 
 const props = defineProps<{ open: boolean; wordInEnglish: string }>();
 const emits = defineEmits(['setOpen']);
-
-const API_END_POINT = getAPIUrl();
 
 const source = ref<Source>('cambridge');
 const localData = ref<WordInEnglish | null>(null);
@@ -137,15 +134,12 @@ const { refetch } = useQuery<WordInEnglish>({
   queryKey: ['fetching-english-sense', props.wordInEnglish],
   queryFn: async () => {
     return await (
-      await axios.get(
-        `${API_END_POINT}/api/words/translate/${encodeURIComponent(props.wordInEnglish)}`,
-        {
-          params: {
-            format: 'en-en',
-            source: source.value
-          }
+      await axiosClient.get(`/words/translate/${encodeURIComponent(props.wordInEnglish)}`, {
+        params: {
+          format: 'en-en',
+          source: source.value
         }
-      )
+      })
     ).data;
   },
   onSuccess: (data) => {

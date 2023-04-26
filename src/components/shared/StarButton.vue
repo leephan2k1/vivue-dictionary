@@ -14,16 +14,15 @@
 
 <script lang="ts" setup>
 import { useSession } from '@/stores/userSession';
-import getAPIUrl from '@/utils/getAPIUrl';
+import type { FetchingStatus } from '@/types/app';
+import { axiosClient } from '@/utils/httpClient';
 import { StarIcon } from '@heroicons/vue/24/outline';
 import { StarIcon as StarIconSolid } from '@heroicons/vue/24/solid';
 import { useMutation, useQuery } from '@tanstack/vue-query';
-import axios from 'axios';
 import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { toast } from 'vue-sonner';
 import StarOptions from './StarOptions.vue';
-import type { FetchingStatus } from '@/types/app';
 
 const router = useRouter();
 const session = useSession();
@@ -38,7 +37,7 @@ const { refetch } = useQuery({
   queryFn: async () => {
     localStatus.value = 'loading';
     return await (
-      await axios.get(`${getAPIUrl()}/api/users/favorite`, {
+      await axiosClient.get(`/users/favorite`, {
         withCredentials: true,
         params: {
           word
@@ -62,7 +61,7 @@ const { mutate: deleteFvWord } = useMutation({
   mutationKey: ['delete-fv-word'],
   mutationFn: async () => {
     return await (
-      await axios.delete(`${getAPIUrl()}/api/users/favorite`, {
+      await axiosClient.delete(`/users/favorite`, {
         data: { word },
         withCredentials: true
       })

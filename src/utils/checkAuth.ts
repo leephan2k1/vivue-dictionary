@@ -1,9 +1,8 @@
-import getAPIUrl from '@/utils/getAPIUrl';
-import axios from 'axios';
+import { axiosClient } from './httpClient';
 
 export async function checkAuth() {
   try {
-    const { data } = await axios.get(`${getAPIUrl()}/api/auth/user`, { withCredentials: true });
+    const { data } = await axiosClient.get(`/auth/user`, { withCredentials: true });
 
     return { user: data, status: 'authenticated' };
   } catch (error) {

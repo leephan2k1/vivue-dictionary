@@ -1,9 +1,7 @@
+import type { SessionStatus, User } from '@/types/app';
+import { axiosClient } from '@/utils/httpClient';
 import { defineStore } from 'pinia';
-import { ref, onMounted } from 'vue';
-import type { SessionStatus } from '@/types/app';
-import axios from 'axios';
-import getAPIUrl from '@/utils/getAPIUrl';
-import type { User } from '@/types/app';
+import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { toast } from 'vue-sonner';
 
@@ -15,7 +13,7 @@ export const useSession = defineStore('userSession', () => {
   onMounted(async () => {
     status.value = 'loading';
     try {
-      const { data } = await axios.get(`${getAPIUrl()}/api/auth/user`, { withCredentials: true });
+      const { data } = await axiosClient.get(`/auth/user`, { withCredentials: true });
 
       user.value = data;
       status.value = 'authenticated';
@@ -30,7 +28,7 @@ export const useSession = defineStore('userSession', () => {
       status.value = 'unauthenticated';
       user.value = null;
 
-      await axios.get(`${getAPIUrl()}/api/logout`, { withCredentials: true });
+      await axiosClient.get(`/logout`, { withCredentials: true });
 
       router.push({ name: 'home' });
     } catch (error) {

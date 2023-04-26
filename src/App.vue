@@ -3,11 +3,10 @@ import { PUBLIC_LAYOUT } from '@/constants';
 import type { TranslationHistory } from '@/types/app';
 import { useMutation } from '@tanstack/vue-query';
 import { useStorage } from '@vueuse/core';
-import axios from 'axios';
 import { computed, ref, watch } from 'vue';
 import { RouterView, useRoute } from 'vue-router';
 import { useSession } from './stores/userSession';
-import getAPIUrl from './utils/getAPIUrl';
+import { axiosClient } from './utils/httpClient';
 
 const route = useRoute();
 const session = useSession();
@@ -16,8 +15,8 @@ const localHistory = useStorage<TranslationHistory[]>('translations-history', []
 
 const { mutate: addTranslationHistory } = useMutation({
   mutationFn: ({ payload }: { payload: TranslationHistory[] }) =>
-    axios.post(
-      `${getAPIUrl()}/api/users/translation-history`,
+    axiosClient.post(
+      `/users/translation-history`,
       {
         translations_history: payload,
         word: '',

@@ -20,33 +20,20 @@
 </template>
 
 <script lang="ts" setup>
+import SwitchButton from '@/components/shared/SwitchButton.vue';
+import { t } from '@/constants';
+import { useDashboardData } from '@/hooks/useDashboardData';
+import { useStorage } from '@vueuse/core';
+import { provide, ref, watch } from 'vue';
 import StatusCard from './StatusCard.vue';
 import StatusCardStatic from './StatusStaticCard.vue';
-import WordPreview from './WordPreview.vue';
 import TagsContainer from './TagsContainer.vue';
-import { useQuery } from '@tanstack/vue-query';
-import { axiosClient } from '@/utils/httpClient';
-import SwitchButton from '@/components/shared/SwitchButton.vue';
-import { ref, provide, watch } from 'vue';
-import { t } from '@/constants';
-import { useStorage } from '@vueuse/core';
+import WordPreview from './WordPreview.vue';
 
 const practiceStatus = ref('chưa học');
 const enablePreviewWord = useStorage('enablePreviewWord', false);
 
-const { refetch, data, status } = useQuery({
-  queryKey: ['fetching-dashboard-data'],
-  queryFn: async () => {
-    return await (
-      await axiosClient.get(`/users/dashboard`, {
-        withCredentials: true,
-        params: {
-          status: t[practiceStatus.value]
-        }
-      })
-    ).data;
-  }
-});
+const { refetch, data, status } = useDashboardData({ statusParam: t[practiceStatus.value] });
 
 provide('practiceStatus', practiceStatus);
 provide('refetchDashboard', refetch);

@@ -6,6 +6,7 @@
       <SelectBox
         :selections="['Chưa học', 'Chưa nhớ', 'Khó nhớ', 'Đã nhớ', 'Tạm quên']"
         @select-change="handleTagChange"
+        styles-btn="bg-main-background min-w-[13rem]"
       />
     </div>
 

@@ -5,7 +5,8 @@
       <h2 class="md:min-w-[18.5rem]">Luyện tập theo nghĩa:</h2>
       <SelectBox
         class="bg-black w-[15rem]"
-        :selections="['Anh-Việt', 'Việt-Anh']"
+        :default-selection="practiceSettings.practiceFormat"
+        :selections="['Mặc định', 'Anh-Việt', 'Việt-Anh']"
         @select-change="handleSelectFormatChange"
       />
     </div>
@@ -16,6 +17,7 @@
       <SelectBox
         class="bg-black w-[20rem]"
         :selections="['Ngẫu nhiên', 'Được thêm mới nhất']"
+        :default-selection="practiceSettings.practiceOrder"
         @select-change="handlePracticeOrderSelect"
       />
     </div>
@@ -58,7 +60,6 @@
 
       <div class="flex gap-4 items-center flex-wrap" v-auto-animate>
         <span class="p-2 border border-white rounded-xl">Chưa học</span>
-        <span class="p-2 border border-white rounded-xl">Chưa nhớ</span>
         <span
           v-for="state in practiceSettings.states"
           :key="state"
@@ -81,14 +82,14 @@ import { useDashboardData } from '@/hooks/useDashboardData';
 import { watchEffect, ref } from 'vue';
 
 const { data, status } = useDashboardData({ statusParam: 'NOT_PRACTICE' });
-const DEFAULT_STATES = ['Khó nhớ', 'Tạm quên', 'Đã nhớ'];
+const DEFAULT_STATES = ['Chưa nhớ', 'Khó nhớ', 'Tạm quên', 'Đã nhớ'];
 
 //"showTickIcon" ^ in the template can not reactive with practiceSettings.tags?
 const tags = ref(['all']);
 
 const practiceSettings = useStorage('practiceSettings', {
   practiceOrder: 'Ngẫu nhiên',
-  practiceFormat: 'en-vi',
+  practiceFormat: 'default',
   tags: [],
   states: DEFAULT_STATES
 });
@@ -112,6 +113,7 @@ const handleFilterTags = (tag: string) => {
   }
 
   if (tags.value.length === 0) tags.value = data.value.tags.map((e: any) => e.tag);
+  //@ts-ignore
   practiceSettings.value.tags = tags.value;
 };
 

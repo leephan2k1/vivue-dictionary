@@ -23,6 +23,7 @@
     "nprogress": "^0.2.0",
     "pinia": "^2.0.32",
     "radash": "^10.8.1",
+    "swiper": "^9.2.4",
     "vue": "^3.2.47",
     "vue-countup-v3": "^1.1.0",
     "vue-highlight-words": "^3.0.1",

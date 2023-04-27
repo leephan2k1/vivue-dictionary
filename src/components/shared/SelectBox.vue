@@ -1,5 +1,5 @@
 <template>
-  <Listbox v-model="selection">
+  <Listbox v-model="selection" @update:model-value="handleSelect">
     <div class="relative mt-1">
       <ListboxButton
         :class="stylesBtn"
@@ -50,16 +50,20 @@
 </template>
 
 <script lang="ts" setup>
-import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue';
-import { ref, watchEffect } from 'vue';
+import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/vue';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid';
+import { ref } from 'vue';
 
-const props = defineProps<{ selections: string[]; stylesBtn?: string }>();
+const props = defineProps<{
+  selections: string[];
+  stylesBtn?: string;
+  defaultSelection?: string;
+}>();
 const emits = defineEmits(['selectChange']);
 
-const selection = ref(props.selections[0]);
+const selection = ref(props.defaultSelection || props.selections[0]);
 
-watchEffect(() => {
+const handleSelect = () => {
   emits('selectChange', selection.value);
-});
+};
 </script>

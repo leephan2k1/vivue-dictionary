@@ -32,6 +32,16 @@ export interface Word {
   examples: Example[];
 }
 
+export interface Practice {
+  id: string;
+  status: string;
+  tag: string;
+  word: Pick<Word, 'wordContent' | 'senses'> & {
+    format: string;
+    less_frequent_senses: { sense: string }[];
+  };
+}
+
 export interface WordInEnglish extends Pick<Word, 'wordContent' | 'typesOfWord'> {
   senses: (Pick<Sense, 'typeOfWord' | 'sense'> & { examples: string[] })[];
 }

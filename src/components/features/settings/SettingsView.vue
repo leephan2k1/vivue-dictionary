@@ -80,7 +80,7 @@ import { useStorage } from '@vueuse/core';
 import { useDashboardData } from '@/hooks/useDashboardData';
 import { watchEffect, ref } from 'vue';
 
-const { refetch, data, status } = useDashboardData({ statusParam: 'NOT_PRACTICE' });
+const { data, status } = useDashboardData({ statusParam: 'NOT_PRACTICE' });
 const DEFAULT_STATES = ['Khó nhớ', 'Tạm quên', 'Đã nhớ'];
 
 //"showTickIcon" ^ in the template can not reactive with practiceSettings.tags?
@@ -89,13 +89,17 @@ const tags = ref(['all']);
 const practiceSettings = useStorage('practiceSettings', {
   practiceOrder: 'Ngẫu nhiên',
   practiceFormat: 'en-vi',
-  tags: tags.value,
+  tags: [],
   states: DEFAULT_STATES
 });
 
 watchEffect(() => {
-  if (data.value) {
+  if (practiceSettings.value.tags.length > 0) {
+    tags.value = practiceSettings.value.tags;
+  } else if (data.value) {
     tags.value = data.value.tags.map((e: any) => e.tag);
+    //@ts-ignore
+    practiceSettings.value.tags = tags.value;
   }
 });
 

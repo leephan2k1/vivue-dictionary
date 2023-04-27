@@ -5,7 +5,7 @@
       <h2 class="md:min-w-[18.5rem]">Luyện tập theo nghĩa:</h2>
       <SelectBox
         class="bg-black w-[15rem]"
-        :selections="['Anh-Việt', 'Việt-Anh', 'Ngẫu nhiên']"
+        :selections="['Anh-Việt', 'Việt-Anh']"
         @select-change="handleSelectFormatChange"
       />
     </div>

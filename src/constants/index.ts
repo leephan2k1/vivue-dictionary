@@ -27,6 +27,8 @@ export const t: { [key: string]: string } = {
   'Tiếng Việt': 'vi',
   en: 'English',
   vi: 'Tiếng Việt',
+  'anh-việt': 'en-vi',
+  'việt-anh': 'vi-en',
   'chưa nhớ': 'FORGOT',
   'khó nhớ': 'HARD_TO_REMEMBER',
   'chưa học': 'NOT_PRACTICE',

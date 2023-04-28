@@ -10,7 +10,7 @@
       <RouterLink
         :to="{ name: 'dashboard' }"
         @click="handleItemClick"
-        id="practice-menu-1"
+        id="dashboard"
         :class="`${routeName === 'dashboard' ? 'text-white' : 'text-content'}`"
         class="min-w-[95px] cursor-pointer p-3 z-30 text-center"
       >
@@ -19,7 +19,7 @@
       <RouterLink
         :to="{ name: 'challenge' }"
         @click="handleItemClick"
-        id="practice-menu-2"
+        id="challenge"
         :class="`${routeName === 'challenge' ? 'text-white' : 'text-content'}`"
         class="min-w-[95px] cursor-pointer p-3 z-30 ml-4 text-center"
       >
@@ -28,7 +28,7 @@
       <RouterLink
         :to="{ name: 'settings' }"
         @click="handleItemClick"
-        id="practice-menu-3"
+        id="settings"
         :class="`${routeName === 'settings' ? 'text-white' : 'text-content'}`"
         class="min-w-[95px] cursor-pointer p-3 z-30 ml-4 text-center"
       >
@@ -37,7 +37,7 @@
       <RouterLink
         :to="{ name: 'instructions' }"
         @click="handleItemClick"
-        id="practice-menu-4"
+        id="instructions"
         :class="`${routeName === 'instructions' ? 'text-white' : 'text-content'}`"
         class="min-w-[95px] cursor-pointer p-3 z-30 ml-4 text-center"
       >
@@ -48,7 +48,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { RouterLink, useRouter } from 'vue-router';
 
 const pointer = ref(null);
@@ -56,6 +56,20 @@ const router = useRouter();
 
 const routeName = computed(() => {
   return router.currentRoute.value.name;
+});
+
+//active pointer effect
+onMounted(() => {
+  const name = router.currentRoute.value.name;
+
+  if (name !== 'dashboard') {
+    const elem = document.getElementById(String(name));
+
+    if (elem && pointer.value) {
+      //@ts-ignore
+      pointer.value.style.transform = `translateX(${elem.offsetLeft - 5}px)`;
+    }
+  }
 });
 
 const handleItemClick = (e: MouseEvent) => {

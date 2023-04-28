@@ -55,6 +55,7 @@
           class="bg-black w-[25rem]"
           :selections="DEFAULT_STATES"
           @select-change="handleMultiSelectChange"
+          :default-selections="practiceSettings.states"
         />
       </div>
 

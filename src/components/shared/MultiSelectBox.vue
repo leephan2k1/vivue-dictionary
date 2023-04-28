@@ -50,18 +50,22 @@
 </template>
 
 <script lang="ts" setup>
-import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue';
-import { ref, watchEffect } from 'vue';
+import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/vue';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid';
+import { ref } from 'vue';
 
-const props = defineProps<{ stylesBtn?: string; selections: string[] }>();
+const props = defineProps<{
+  stylesBtn?: string;
+  selections: string[];
+  defaultSelections?: string[];
+}>();
 const emits = defineEmits(['selectChange']);
 
-const selected = ref([props.selections[0], props.selections[1]]);
+const selected = ref(
+  props.defaultSelections ? props.defaultSelections : [props.selections[0], props.selections[1]]
+);
 
-const handleUpdateValue = () => {};
-
-watchEffect(() => {
+const handleUpdateValue = () => {
   emits('selectChange', selected.value);
-});
+};
 </script>

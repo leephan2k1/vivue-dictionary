@@ -9,7 +9,7 @@
     <TagsContainer :isLoading="status === 'loading'" :tags="data?.tags" />
 
     <div class="flex space-x-2 w-full mt-4 items-center">
-      <h3>Xem lại từ {{ practiceStatus }}</h3>
+      <h3>Xem lại từ {{ statusParam }}</h3>
       <SwitchButton @onChange="handleOnChangePreview" :defaultState="enablePreviewWord" />
     </div>
 
@@ -30,17 +30,15 @@ import StatusCardStatic from './StatusStaticCard.vue';
 import TagsContainer from './TagsContainer.vue';
 import WordPreview from './WordPreview.vue';
 
-const practiceStatus = ref('chưa học');
 const enablePreviewWord = useStorage('enablePreviewWord', false);
 
-const { refetch, data, status } = useDashboardData({ statusParam: t[practiceStatus.value] });
+const { query, statusParam } = useDashboardData();
+const { refetch, data, status } = query;
 
-provide('practiceStatus', practiceStatus);
+provide('practiceStatus', statusParam);
 provide('refetchDashboard', refetch);
 
 const handleOnChangePreview = (state: boolean) => {
   enablePreviewWord.value = state;
 };
-
-watch(practiceStatus, () => refetch());
 </script>

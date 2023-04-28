@@ -21,9 +21,13 @@ import { inject } from 'vue';
 
 defineProps<{ data: number }>();
 const practiceStatus = inject('practiceStatus');
+const refetchDashboard = inject('refetchDashboard');
 
 const handleTagChange = (tag: string) => {
   //@ts-ignore
   practiceStatus.value = tag.toLowerCase();
+  if (refetchDashboard && typeof refetchDashboard === 'function') {
+    refetchDashboard();
+  }
 };
 </script>

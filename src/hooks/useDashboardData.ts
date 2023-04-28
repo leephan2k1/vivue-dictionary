@@ -1,7 +1,11 @@
 import { useQuery } from '@tanstack/vue-query';
 import { axiosClient } from '@/utils/httpClient';
+import { ref } from 'vue';
+import { t } from '@/constants';
 
-export function useDashboardData({ statusParam }: { statusParam: string }) {
+export function useDashboardData() {
+  const statusParam = ref('chưa học');
+
   const query = useQuery({
     queryKey: ['fetching-dashboard-data'],
     queryFn: async () => {
@@ -9,12 +13,12 @@ export function useDashboardData({ statusParam }: { statusParam: string }) {
         await axiosClient.get(`/users/dashboard`, {
           withCredentials: true,
           params: {
-            status: statusParam
+            status: t[statusParam.value]
           }
         })
       ).data;
     }
   });
 
-  return query;
+  return { query, statusParam };
 }

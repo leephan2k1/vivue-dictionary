@@ -81,19 +81,16 @@ import MultiSelectBox from '@/components/shared/MultiSelectBox.vue';
 import { useStorage } from '@vueuse/core';
 import { useDashboardData } from '@/hooks/useDashboardData';
 import { watchEffect, ref } from 'vue';
+import { DEFAULT_PRACTICE_SETTINGS } from '@/constants';
 
-const { data, status } = useDashboardData({ statusParam: 'NOT_PRACTICE' });
+const { query } = useDashboardData();
+const { data, status } = query;
 const DEFAULT_STATES = ['Chưa nhớ', 'Khó nhớ', 'Tạm quên', 'Đã nhớ'];
 
 //"showTickIcon" ^ in the template can not reactive with practiceSettings.tags?
 const tags = ref(['all']);
 
-const practiceSettings = useStorage('practiceSettings', {
-  practiceOrder: 'Ngẫu nhiên',
-  practiceFormat: 'default',
-  tags: [],
-  states: DEFAULT_STATES
-});
+const practiceSettings = useStorage('practiceSettings', DEFAULT_PRACTICE_SETTINGS);
 
 watchEffect(() => {
   if (practiceSettings.value.tags.length > 0) {

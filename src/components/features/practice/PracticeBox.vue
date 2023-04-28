@@ -23,6 +23,7 @@
 </template>
 
 <script lang="ts" setup>
+import { DEFAULT_PRACTICE_SETTINGS } from '@/constants';
 import { useFetchPracticeWords } from '@/hooks/useFetchPracticeWords';
 import type { Practice } from '@/types/app';
 import { useStorage } from '@vueuse/core';
@@ -36,12 +37,7 @@ import { toast } from 'vue-sonner';
 import PaginationPracticeSection from './PaginationPracticeSection.vue';
 import PracticeCard from './PracticeCard.vue';
 
-const practiceSettings = useStorage('practiceSettings', {
-  practiceOrder: 'Ngẫu nhiên',
-  practiceFormat: 'Anh-Việt',
-  tags: [],
-  states: ['Khó nhớ', 'Tạm quên', 'Đã nhớ']
-});
+const practiceSettings = useStorage('practiceSettings', DEFAULT_PRACTICE_SETTINGS);
 
 const practices = ref<Practice[]>([]);
 

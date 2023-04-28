@@ -5,6 +5,12 @@ export const AUTH_LAYOUT = 'auth';
 
 export const sources: Source[] = ['cambridge', 'oxford', 'glosbe'];
 
+export const DEFAULT_PRACTICE_SETTINGS = {
+  practiceOrder: 'Ngẫu nhiên',
+  practiceFormat: 'Mặc định',
+  tags: [],
+  states: ['Chưa nhớ', 'Khó nhớ', 'Tạm quên']
+};
 export const COLORS_OPTIONS = [
   '#facc15',
   '#a3e635',

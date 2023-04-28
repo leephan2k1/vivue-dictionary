@@ -1,20 +1,14 @@
-import { useQuery } from '@tanstack/vue-query';
-import { axiosClient } from '@/utils/httpClient';
-import { useStorage } from '@vueuse/core';
-import { t } from '@/constants';
+import { DEFAULT_PRACTICE_SETTINGS, t } from '@/constants';
 import type { Practice } from '@/types/app';
+import { axiosClient } from '@/utils/httpClient';
+import { useQuery } from '@tanstack/vue-query';
+import { useStorage } from '@vueuse/core';
 import { ref } from 'vue';
 
 export function useFetchPracticeWords() {
   const page = ref(1);
-  const DEFAULT_STATES = ['Khó nhớ', 'Tạm quên', 'Đã nhớ'];
 
-  const practiceSettings = useStorage('practiceSettings', {
-    practiceOrder: 'Ngẫu nhiên',
-    practiceFormat: 'en-vi',
-    tags: [],
-    states: DEFAULT_STATES
-  });
+  const practiceSettings = useStorage('practiceSettings', DEFAULT_PRACTICE_SETTINGS);
 
   return {
     page,

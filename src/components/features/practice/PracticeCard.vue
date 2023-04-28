@@ -36,23 +36,18 @@
 </template>
 
 <script lang="ts" setup>
-import { shuffle } from 'radash';
+import { DEFAULT_PRACTICE_SETTINGS, t } from '@/constants';
 import type { Practice } from '@/types/app';
-import { computed, ref } from 'vue';
-import { useStorage } from '@vueuse/core';
-import { t } from '@/constants';
-import { removeAccents } from '@/utils/stringHelper';
-import { toast } from 'vue-sonner';
-import { CheckIcon } from '@heroicons/vue/24/solid';
 import { axiosClient } from '@/utils/httpClient';
+import { removeAccents } from '@/utils/stringHelper';
+import { CheckIcon } from '@heroicons/vue/24/solid';
 import { useMutation } from '@tanstack/vue-query';
+import { useStorage } from '@vueuse/core';
+import { shuffle } from 'radash';
+import { computed, ref } from 'vue';
+import { toast } from 'vue-sonner';
 
-const practiceSettings = useStorage('practiceSettings', {
-  practiceOrder: 'Ngẫu nhiên',
-  practiceFormat: 'Anh-Việt',
-  tags: [],
-  states: ['Khó nhớ', 'Tạm quên', 'Đã nhớ']
-});
+const practiceSettings = useStorage('practiceSettings', DEFAULT_PRACTICE_SETTINGS);
 
 const props = defineProps<{ w: Pick<Practice, 'word'>; index: number }>();
 const isRemembered = ref(false);

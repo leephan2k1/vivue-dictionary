@@ -21,10 +21,9 @@
 
 <script lang="ts" setup>
 import SwitchButton from '@/components/shared/SwitchButton.vue';
-import { t } from '@/constants';
 import { useDashboardData } from '@/hooks/useDashboardData';
 import { useStorage } from '@vueuse/core';
-import { provide, ref, watch } from 'vue';
+import { provide } from 'vue';
 import StatusCard from './StatusCard.vue';
 import StatusCardStatic from './StatusStaticCard.vue';
 import TagsContainer from './TagsContainer.vue';

@@ -2,7 +2,7 @@
 
 ## The official web app is [vivue.online](https://vivue.online/)
 
-![logo](https://i.ibb.co/HdVqfN5/vivue-app-logo.png)
+![logo](https://i.ibb.co/yRNPknv/android-chrome-192x192.png)
 
 ## Powered by
 

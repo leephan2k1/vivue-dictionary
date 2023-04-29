@@ -4,16 +4,14 @@
 
     <div class="flex items-center space-x-4 md:px-20 lg:px-32 mt-6">
       <button
-        :key="source"
         @click.stop="handleSelectSource('google')"
-        :class="`${source === 'google' && 'outline outline-[1.8px] outline-main'}`"
-        class="absolute-center space-x-2 p-3 bg-black rounded-xl min-h-[4.5rem] smooth-effect"
+        class="absolute-center space-x-2 p-3 bg-black rounded-xl min-h-[4.5rem] smooth-effect outline outline-[1.8px] outline-main"
       >
         <SimpleIconsGoogletranslate class="text-3xl text-blue-400" />
         <span>Google translate</span>
       </button>
 
-      <button
+      <!-- <button
         :key="source"
         @click.stop="handleSelectSource('glosbe')"
         :class="`${source === 'glosbe' && 'outline outline-[1.8px] outline-main'}`"
@@ -21,7 +19,7 @@
       >
         <GlosbeLogo />
         <span>Glosbe</span>
-      </button>
+      </button> -->
     </div>
 
     <div class="flex md:flex-row flex-col mt-6 gap-4 relative h-fit justify-center">

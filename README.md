@@ -1,46 +1,40 @@
-# viue-dictionary
+# Vivue Dictionary - For Vietnamese, By Vietnamese
 
-This template should help get you started developing with Vue 3 in Vite.
+## The official web app is [vivue.online](https://vivue.online/)
 
-## Recommended IDE Setup
+![logo](https://i.ibb.co/HdVqfN5/vivue-app-logo.png)
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+## Powered by
 
-## Type Support for `.vue` Imports in TS
+### Client-side
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+- VueJS ecosystem: VueJS 3, Pinia, VueUse, VueRouter, Vite...
+- TailwindCSS
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+### Server-side
 
-1. Disable the built-in TypeScript Extension
-    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+- ExpressJS
+- Prisma
+- MySQL
 
-## Customize configuration
+## Project setup
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+- See [.env.example](https://github.com/leephan2k1/vivue-dictionary/blob/main/.env.example)
 
-## Project Setup
+## Quick view
 
-```sh
-npm install
-```
+![Vivue-dictionary](https://i.ibb.co/ZYzXy55/screencapture-localhost-5173-dictionary-dictionary-2023-04-29-14-20-11.png)
 
-### Compile and Hot-Reload for Development
+## Sponsor
 
-```sh
-npm run dev
-```
+Vivue Dictionary is an open source project. It means is free and always free.
+I am pleased if you intend to sponsor this project (For domain, hosting and coffee costs :>)
 
-### Type-Check, Compile and Minify for Production
+1. Sacombank: 070109823242 (PHAN THANH TRIẾT LÝ)
+2. MOMO:
 
-```sh
-npm run build
-```
+   ![momo](https://i.ibb.co/g9KWyK3/1fc0f64ec9190d475408.jpg)
 
-### Lint with [ESLint](https://eslint.org/)
+# Happy coding!
 
-```sh
-npm run lint
-```
+![fun-doge](https://i.ibb.co/9rTSpLM/21f58444ba137e4d2702.jpg)

@@ -1,5 +1,5 @@
 <template>
-  <component :is="`container`" class="min-h-[calc(100vh-6rem)] absolute-center">
+  <component :is="`container`" class="min-h-[calc(100vh-6rem)] absolute-center overflow-hidden">
     <LoginForm />
   </component>
 </template>

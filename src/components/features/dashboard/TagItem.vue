@@ -5,7 +5,7 @@
       color: COLORS_OPTIONS[idx % COLORS_OPTIONS.length],
       borderColor: COLORS_OPTIONS[idx % COLORS_OPTIONS.length]
     }"
-    class="p-2 rounded-2xl border-2 relative"
+    class="p-2 rounded-2xl border-2 relative w-fit"
   >
     {{ tag === 'default' ? 'mặc định' : tag }}
 

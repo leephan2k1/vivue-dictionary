@@ -30,7 +30,6 @@
       <li>“Chưa nhớ” là các từ làm sai trong quá trinh luyện tập.</li>
       <li>“Khó nhớ” là các từ có tần suất làm sai ≥ 3 lần.</li>
       <li>“Chưa học” là các từ chưa từng luyện tập.</li>
-      <li>“Chưa học” là các từ chưa từng luyện tập.</li>
       <li>“Đã nhớ” là các từ làm đúng trong quá trình luyện tập.</li>
       <li>
         “Tạm quên” là các từ được tính từ lúc “đã nhớ” sau khoảng thời gian x (x mặc định là 7 ngày,

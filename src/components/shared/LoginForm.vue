@@ -11,7 +11,7 @@
       <LoginButton title="Đăng nhập với Google" class="group" provider="google">
         <PhGoogleLogoFill class="text-3xl group-hover:text-yellow-400 smooth-effect" />
       </LoginButton>
-      <LoginButton title="Đăng nhập với Google" class="group" provider="facebook">
+      <LoginButton title="Đăng nhập với Facebook" class="group" provider="facebook">
         <TeenyiconsFacebookSolid class="text-3xl group-hover:text-sky-500 smooth-effect" />
       </LoginButton>
     </div>

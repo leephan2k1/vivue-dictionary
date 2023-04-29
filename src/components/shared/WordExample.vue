@@ -21,7 +21,7 @@
     <div v-else v-auto-animate>
       <div v-for="(item, index) in currentExample" :key="item.keyword_en" class="my-8">
         <Highlighter
-          class="mt-2 block"
+          class="mt-4 block"
           highlightClassName="text-main bg-main/20 p-2 rounded-xl"
           :searchWords="[String(item?.keyword_vi)]"
           :autoEscape="true"
@@ -29,7 +29,7 @@
         />
 
         <Highlighter
-          class="mt-2 block text-content"
+          class="mt-4 block text-content"
           highlightClassName="text-main bg-main/20 p-2 rounded-xl"
           :searchWords="[String(item?.keyword_en)]"
           :autoEscape="true"

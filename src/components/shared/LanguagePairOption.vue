@@ -1,5 +1,5 @@
 <template>
-  <div class="relative flex items-center justify-between w-fit overflow-hidden space-x-8">
+  <div class="relative flex items-center justify-between w-fit overflow-hidden space-x-8 z-30">
     <h3
       :key="store.pair.current_language"
       :class="`${

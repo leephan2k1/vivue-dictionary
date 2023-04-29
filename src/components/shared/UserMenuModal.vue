@@ -27,12 +27,16 @@
     leave-to="opacity-0 scale-95"
   >
     <div
-      class="absolute top-[130%] space-y-4 py-6 px-3 right-0 rounded-xl h-fit w-[13rem] bg-black z-[500] flex flex-col z-40"
+      class="absolute top-[130%] space-y-4 py-6 px-3 right-0 rounded-xl h-fit w-[13rem] bg-black flex flex-col z-[500]"
     >
-      <button class="p-3 hover:bg-main-background rounded-xl flex items-center space-x-2">
+      <RouterLink
+        :to="{ name: 'profile' }"
+        @click.stop="handleNagivate"
+        class="p-3 hover:bg-main-background rounded-xl flex items-center space-x-2"
+      >
         <InformationCircleIcon class="w-7 h-7" />
         <span>Thông tin</span>
-      </button>
+      </RouterLink>
       <button
         @click.stop="handleLogout"
         class="p-3 hover:bg-main-background rounded-xl flex items-center space-x-2"
@@ -45,12 +49,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { TransitionRoot } from '@headlessui/vue';
-import { onClickOutside } from '@vueuse/core';
 import SolarLogout2Bold from '@/components/icons/SolarLogout2Bold.vue';
-import { InformationCircleIcon } from '@heroicons/vue/20/solid';
 import { useSession } from '@/stores/userSession';
+import { TransitionRoot } from '@headlessui/vue';
+import { InformationCircleIcon } from '@heroicons/vue/20/solid';
+import { onClickOutside } from '@vueuse/core';
+import { ref } from 'vue';
+import { RouterLink } from 'vue-router';
 
 const props = defineProps<{ open: boolean }>();
 const emits = defineEmits(['setOpen']);
@@ -61,6 +66,10 @@ const sessionStore = useSession();
 const handleLogout = () => {
   emits('setOpen', false);
   sessionStore.logout();
+};
+
+const handleNagivate = () => {
+  emits('setOpen', false);
 };
 
 onClickOutside(target, () => {

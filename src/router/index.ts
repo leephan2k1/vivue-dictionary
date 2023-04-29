@@ -20,6 +20,11 @@ const router = createRouter({
       component: () => import('@/views/DictionaryView.vue')
     },
     {
+      path: '/profile',
+      name: 'profile',
+      component: () => import('@/views/ProfileView.vue')
+    },
+    {
       path: '/machine-translation',
       name: 'translation',
       component: () => import('@/views/MachineTranslation.vue')

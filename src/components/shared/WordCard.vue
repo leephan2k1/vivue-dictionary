@@ -10,10 +10,6 @@
           <ArrowLongRightIcon class="w-6 h-6" />
           <span>{{ t[props.translation.targetLanguage] }}</span>
         </div>
-
-        <button class="p-2 rounded-full hover:bg-gray-900">
-          <StarIcon class="w-6 h-6" />
-        </button>
       </div>
 
       <h3 class="line-clamp-1 md:text-2xl text-xl">{{ props.translation.word }}</h3>

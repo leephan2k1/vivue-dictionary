@@ -14,6 +14,7 @@ export interface User {
   image: string;
   name: string;
   provider: string;
+  createdAt: string;
 }
 
 interface TranslationHistory {

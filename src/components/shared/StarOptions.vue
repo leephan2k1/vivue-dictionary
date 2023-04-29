@@ -58,6 +58,17 @@
                     class="p-4 bg-main-background w-[20rem] mt-4 rounded-xl"
                     autofocus
                   />
+
+                  <div class="flex space-x-4 items-center">
+                    <TagItem
+                      v-for="(item, idx) in data?.tags"
+                      :key="item.tag"
+                      :tag="item.tag"
+                      :idx="idx"
+                      showTick
+                      @on-click-filter="handleFilterTags"
+                    />
+                  </div>
                 </template>
 
                 <h3>Chọn tần suất ôn lại:</h3>
@@ -117,9 +128,14 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { toast } from 'vue-sonner';
 import SelectTag from './SelectTag.vue';
+import { useDashboardData } from '@/hooks/useDashboardData';
+import TagItem from '@/components/features/dashboard/TagItem.vue';
 
 const emits = defineEmits(['setOpen', 'onMutate']);
 const props = defineProps<{ open: boolean }>();
+
+const { query } = useDashboardData();
+const { refetch, data, status } = query;
 
 const router = useRouter();
 const option = ref('mặc định');
@@ -148,17 +164,28 @@ const handleDayOptionChange = (opt: string) => {
   forgottenFrequencyOption.value = opt.toLowerCase();
 };
 
+const handleFilterTags = (tag: string) => {
+  tagValue.value = tag === 'default' ? 'mặc định' : tag;
+};
+
 const handleSubmit = () => {
   if (tagValue.value.length > 20) {
     toast.error('Không thể lưu tag lớn hơn 20 ký tự');
     return;
   }
 
+  if (forgottenFrequencyValue.value < 0 || forgottenFrequencyValue.value % 1 !== 0) {
+    toast.error('Số ngày không hợp lệ');
+    return;
+  }
+
   const { word } = router.currentRoute.value.params;
+
+  const tag = tagValue.value.trim();
 
   const payload = {
     word: String(word),
-    tag: tagValue.value && tagValue.value.length > 0 ? tagValue.value : 'default',
+    tag: tag && tag.length > 0 && tag.toLowerCase() !== 'mặc định' ? tag : 'default',
     numberOfDaysToForget: forgottenFrequencyValue.value
   };
 

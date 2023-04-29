@@ -67,8 +67,10 @@
 <script lang="ts" setup>
 import SolarSadSquareLinear from '@/components/icons/SolarSadSquareLinear.vue';
 import type { FetchingStatus, TranslationHistory, Word } from '@/types/app';
+import roundRobinServer from '@/utils/proxyBalancer';
 import { PlusCircleIcon } from '@heroicons/vue/20/solid';
 import { useStorage } from '@vueuse/core';
+import axios from 'axios';
 import EnglishSenseModal from './EnglishSenseModal.vue';
 import LessFrequentSense from './LessFrequentSense.vue';
 import SimilarPhrase from './SimilarPhrase.vue';
@@ -102,11 +104,14 @@ const { data, status, refetch, error } = useQuery<Word>({
   queryKey: ['word-detail', wordParam.value],
   queryFn: async () => {
     return await (
-      await axiosClient.get(`/words/translate/${encodeURIComponent(String(wordParam.value))}`, {
-        params: {
-          format: router.currentRoute.value.query?.pair
+      await axios.get(
+        `${roundRobinServer()}/words/translate/${encodeURIComponent(String(wordParam.value))}`,
+        {
+          params: {
+            format: router.currentRoute.value.query?.pair
+          }
         }
-      })
+      )
     ).data;
   },
   onSuccess: () => {

@@ -32,9 +32,10 @@
 <script lang="ts" setup>
 import DocumentsIconSolid from '@/components/icons/DocumentsIconSolid.vue';
 import type { FetchingStatus } from '@/types/app';
-import { axiosClient } from '@/utils/httpClient';
+import roundRobinServer from '@/utils/proxyBalancer';
 import { useQuery } from '@tanstack/vue-query';
 import { useIntersectionObserver } from '@vueuse/core';
+import axios from 'axios';
 import { computed, ref, watch, watchEffect } from 'vue';
 import { useRouter } from 'vue-router';
 import DocumentsIconBlurSolid from '../icons/DocumentsIconBlurSolid.vue';
@@ -58,7 +59,7 @@ const { status, refetch, data } = useQuery<{ grammars: string[] }>({
   queryKey: ['fetch-grammars'],
   queryFn: async () => {
     return await (
-      await axiosClient.get(`/words/grammar/${encodeURIComponent(wordParam.value)}`)
+      await axios.get(`${roundRobinServer()}/words/grammar/${encodeURIComponent(wordParam.value)}`)
     ).data;
   },
   enabled: targetIsVisible.value,

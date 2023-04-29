@@ -41,9 +41,10 @@ import HeroiconsXCircle from '@/components/icons/HeroiconsXCircle.vue';
 import { t } from '@/constants';
 import { useLanguagePair } from '@/stores/languages';
 import { useSearchResult } from '@/stores/searchResult';
-import { axiosClient } from '@/utils/httpClient';
+import roundRobinServer from '@/utils/proxyBalancer';
 import { useQuery } from '@tanstack/vue-query';
 import { refDebounced } from '@vueuse/core';
+import axios from 'axios';
 import { onUnmounted, ref, watch, watchEffect } from 'vue';
 import { useRouter } from 'vue-router';
 import { toast } from 'vue-sonner';
@@ -62,7 +63,7 @@ const { refetch, status: fetchingStatus } = useQuery({
   queryKey: ['search-word', debounceValue.value],
   queryFn: async function () {
     return await (
-      await axiosClient.get(`/words/search`, {
+      await axios.get(`${roundRobinServer()}/words/search`, {
         params: {
           word: debounceValue.value,
           format: `${t[languageStore.pair.current_language]}-${

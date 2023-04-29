@@ -1,10 +1,8 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import HomeView from '../views/HomeView.vue';
 import DashboardView from '@/components/features/dashboard/DashboardView.vue';
 import NProgress from 'nprogress';
-import { useSession } from '@/stores/userSession';
-import { checkAuth } from '@/utils/checkAuth';
-import type { SessionStatus } from '@/types/app';
+import { createRouter, createWebHistory } from 'vue-router';
+import HomeView from '../views/HomeView.vue';
+import { handlePrivateRoute } from './auth';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -22,7 +20,8 @@ const router = createRouter({
     {
       path: '/profile',
       name: 'profile',
-      component: () => import('@/views/ProfileView.vue')
+      component: () => import('@/views/ProfileView.vue'),
+      beforeEnter: handlePrivateRoute
     },
     {
       path: '/machine-translation',
@@ -38,24 +37,7 @@ const router = createRouter({
       path: '/practice',
       name: 'practice',
       component: () => import('@/views/PracticeView.vue'),
-      beforeEnter: async (to, from, next) => {
-        const session = useSession();
-
-        if (session.status === 'authenticated') {
-          next();
-        } else {
-          const { status, user } = await checkAuth();
-
-          if (!user && status === 'unauthenticated') {
-            session.status = 'unauthenticated';
-            next({ name: 'login' });
-            return;
-          }
-          session.status = status as SessionStatus;
-          session.user = user;
-          next();
-        }
-      },
+      beforeEnter: handlePrivateRoute,
       children: [
         {
           path: 'dashboard',

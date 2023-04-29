@@ -83,7 +83,7 @@ import { t } from '@/constants';
 import { useSession } from '@/stores/userSession';
 import { axiosClient } from '@/utils/httpClient';
 import { useMutation, useQuery } from '@tanstack/vue-query';
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch, watchEffect } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -121,8 +121,12 @@ const { data, status, refetch, error } = useQuery<Word>({
 });
 
 const isLoading = computed(() => {
+  //disable loading when same word content
+  const diffWordInCache = data.value?.wordContent !== wordParam.value;
+
   return (
-    (status.value === 'loading' || !data.value || localStatus.value === 'loading') && !data.value
+    (status.value === 'loading' || !data.value || localStatus.value === 'loading') &&
+    diffWordInCache
   );
 });
 

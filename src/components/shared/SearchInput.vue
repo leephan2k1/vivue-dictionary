@@ -5,6 +5,7 @@
     >
       <input
         type="text"
+        ref="inputRef"
         @input="handleChange"
         @keyup.enter="handleChangeKeyup"
         v-model="searchValue"
@@ -48,14 +49,24 @@ import axios from 'axios';
 import { onUnmounted, ref, watch, watchEffect } from 'vue';
 import { useRouter } from 'vue-router';
 import { toast } from 'vue-sonner';
+import { useFocus } from '@vueuse/core';
+import { useLayouts } from '@/stores/useLayout';
 
 const emit = defineEmits(['onChange', 'onPressEnterKey']);
 
+const inputRef = ref();
+const searchValue = ref('');
+
 const searchResultStore = useSearchResult();
 const languageStore = useLanguagePair();
-const searchValue = ref('');
 const debounceValue = refDebounced(searchValue, 350);
 const router = useRouter();
+const { focused } = useFocus(inputRef);
+const layouts = useLayouts();
+
+watchEffect(() => {
+  layouts.showMobileMenu = !focused.value;
+});
 
 const { refetch, status: fetchingStatus } = useQuery({
   //@ts-ignore

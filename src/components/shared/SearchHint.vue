@@ -45,7 +45,6 @@ const languagePairStore = useLanguagePair();
 const searchResultStore = useSearchResult();
 
 onClickOutside(container, () => {
-  console.log('click');
   emit('onSelectWord');
   searchResultStore.result = [];
 });

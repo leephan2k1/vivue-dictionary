@@ -48,7 +48,7 @@
                 />
               </div>
 
-              <div class="flex items-center space-x-4 mt-4 mb-4">
+              <div class="flex items-center mt-4 mb-4 flex-wrap gap-4">
                 <template v-if="localStatus === 'loading'">
                   <div class="tw-animate-pulse bg-gray-800 w-[150px] h-[30px] rounded-xl"></div>
                   <span class="tw-animate-pulse bg-gray-800 w-[40px] h-[30px] rounded-xl"></span>

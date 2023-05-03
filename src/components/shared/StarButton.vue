@@ -19,7 +19,7 @@ import { axiosClient } from '@/utils/httpClient';
 import { StarIcon } from '@heroicons/vue/24/outline';
 import { StarIcon as StarIconSolid } from '@heroicons/vue/24/solid';
 import { useMutation, useQuery } from '@tanstack/vue-query';
-import { ref, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { toast } from 'vue-sonner';
 import StarOptions from './StarOptions.vue';
@@ -30,17 +30,19 @@ const openOptions = ref(false);
 const isStar = ref(false);
 const localStatus = ref<FetchingStatus>('idle');
 
-const { word } = router.currentRoute.value.params;
+const word = computed(() => {
+  return router.currentRoute.value.params?.word;
+});
 
 const { refetch } = useQuery({
-  queryKey: ['fetching-fv-status', word],
+  queryKey: ['fetching-fv-status', word.value],
   queryFn: async () => {
     localStatus.value = 'loading';
     return await (
       await axiosClient.get(`/users/favorite`, {
         withCredentials: true,
         params: {
-          word
+          word: word.value
         }
       })
     ).data;
@@ -48,9 +50,7 @@ const { refetch } = useQuery({
   enabled: session.status === 'authenticated',
   onSuccess: (data) => {
     localStatus.value = 'success';
-    if (data) {
-      isStar.value = true;
-    }
+    isStar.value = !!data;
   },
   onError: () => {
     localStatus.value = 'error';
@@ -62,7 +62,7 @@ const { mutate: deleteFvWord } = useMutation({
   mutationFn: async () => {
     return await (
       await axiosClient.delete(`/users/favorite`, {
-        data: { word },
+        data: { word: word.value },
         withCredentials: true
       })
     ).data;
@@ -73,14 +73,11 @@ const { mutate: deleteFvWord } = useMutation({
 });
 
 //fetch status info for toggle star icon
-watch(
-  () => session.status,
-  () => {
-    if (session.status === 'authenticated') {
-      refetch();
-    }
+watch([() => session.status, () => router.currentRoute.value.params], () => {
+  if (session.status === 'authenticated') {
+    refetch();
   }
-);
+});
 
 const handleOnMutate = (state: boolean) => {
   isStar.value = state;

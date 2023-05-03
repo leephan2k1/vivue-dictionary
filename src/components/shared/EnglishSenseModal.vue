@@ -94,10 +94,11 @@
                           class="mt-2 block text-content"
                           highlightClassName="text-main bg-main/20 p-2 rounded-xl"
                           :searchWords="
-                            ex.match(new RegExp(`${localData.wordContent}(\\w+)*`, 'gi')) || []
+                            ex.match(new RegExp(`\\b${localData.wordContent}(\\w+)*`, 'gi')) || []
                           "
                           :autoEscape="true"
                           :textToHighlight="ex"
+                          :find-chunks="findChunksAtBeginningOfWords"
                         />
                       </li>
                     </ul>
@@ -122,6 +123,7 @@ import { XMarkIcon } from '@heroicons/vue/20/solid';
 import { useQuery } from '@tanstack/vue-query';
 import { ref, watch } from 'vue';
 import Highlighter from 'vue-highlight-words';
+import { findChunksAtBeginningOfWords } from '@/utils/stringHelper';
 
 const props = defineProps<{ open: boolean; wordInEnglish: string }>();
 const emits = defineEmits(['setOpen']);

@@ -34,6 +34,7 @@
           :searchWords="[String(item?.keyword_en)]"
           :autoEscape="true"
           :textToHighlight="item.en"
+          :findChunks="findChunksAtBeginningOfWords"
         />
       </div>
     </div>
@@ -56,6 +57,7 @@ import Highlighter from 'vue-highlight-words';
 import HeroiconsChevronDown from '@/components/icons/HeroiconsChevronDown.vue';
 import type { Example } from '@/types/app';
 import { ref, watch } from 'vue';
+import { findChunksAtBeginningOfWords } from '@/utils/stringHelper';
 
 const props = defineProps<{ isLoading: boolean; examples: Example[] }>();
 const page = ref(1);
